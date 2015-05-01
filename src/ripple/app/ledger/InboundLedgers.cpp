@@ -54,15 +54,12 @@ public:
         assert (hash.isNonZero ());
         InboundLedger::pointer ret;
 
-        // Ensure that any previous IL is destroyed outside the lock
-        InboundLedger::pointer oldLedger;
-
         {
             ScopedLockType sl (mLock);
 
             if (! isStopping ())
             {
-                hash_map<uint256, InboundLedger::pointer>::iterator it = mLedgers.find (hash);
+                auto it = mLedgers.find (hash);
                 if (it != mLedgers.end ())
                 {
                     ret = it->second;
