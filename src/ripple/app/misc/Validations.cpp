@@ -387,6 +387,31 @@ private:
         return ret;
     }
 
+    std::uint32_t getValidationTime (uint256 const& hash, int minValidations)
+    {
+        if (minValidations < 1)
+            minValidations = 1;
+
+        std::vector <std::uint32_t> times;
+
+        {
+            ScopedLockType sl (mLock);
+
+            auto j = findSet (hash);
+            for (auto& it : *j)
+            {
+                if (it.second->isTrusted())
+                    times.push_back (it.second->getSignTime());
+            }
+        }
+
+        if (times.size() < minValidations)
+            return 0;
+
+        // Return median signing time
+        return (times[times.size() / 2] + times[(times.size()+1) / 2]) / 2;
+    }
+
     void flush ()
     {
         bool anyNew = false;
