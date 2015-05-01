@@ -55,6 +55,8 @@ public:
 
     ~InboundLedger ();
 
+    void update (std::uint32_t seq);
+
     bool isHeader () const
     {
         return mHaveHeader;

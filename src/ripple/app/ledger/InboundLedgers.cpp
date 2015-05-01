@@ -62,39 +62,11 @@ public:
 
             if (! isStopping ())
             {
-
-                if (reason == InboundLedger::fcCONSENSUS)
-                {
-                    if (mConsensusLedger.isNonZero() && (mValidationLedger != mConsensusLedger) && (hash != mConsensusLedger))
-                    {
-                        hash_map<uint256, InboundLedger::pointer>::iterator it = mLedgers.find (mConsensusLedger);
-                        if (it != mLedgers.end ())
-                        {
-                            oldLedger = it->second;
-                            mLedgers.erase (it);
-                        }
-                    }
-                    mConsensusLedger = hash;
-                }
-                else if (reason == InboundLedger::fcVALIDATION)
-                {
-                    if (mValidationLedger.isNonZero() && (mValidationLedger != mConsensusLedger) && (hash != mValidationLedger))
-                    {
-                        hash_map<uint256, InboundLedger::pointer>::iterator it = mLedgers.find (mValidationLedger);
-                        if (it != mLedgers.end ())
-                        {
-                            oldLedger = it->second;
-                            mLedgers.erase (it);
-                       }
-                    }
-                    mValidationLedger = hash;
-                }
-
                 hash_map<uint256, InboundLedger::pointer>::iterator it = mLedgers.find (hash);
                 if (it != mLedgers.end ())
                 {
                     ret = it->second;
-                    // FIXME: Should set the sequence if it's not set
+                    ret->update (seq);
                 }
                 else
                 {
@@ -392,9 +364,6 @@ private:
 
     MapType mLedgers;
     KeyCache <uint256> mRecentFailures;
-
-    uint256 mConsensusLedger;
-    uint256 mValidationLedger;
 
     beast::insight::Counter mCounter;
 };

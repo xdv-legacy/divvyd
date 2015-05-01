@@ -67,6 +67,16 @@ InboundLedger::InboundLedger (uint256 const& hash, std::uint32_t seq, fcReason r
         "Acquiring ledger " << mHash;
 }
 
+void InboundLedger::update (std::uint32_t seq)
+{
+    ScopedLockType sl (mLock);
+
+    if ((seq != 0) && (mSeq == 0))
+        mSeq = seq;
+
+    touch ();
+}
+
 bool InboundLedger::checkLocal ()
 {
     ScopedLockType sl (mLock);
