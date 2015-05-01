@@ -207,10 +207,10 @@ public:
 
     void setValidLedger(Ledger::ref l)
     {
-        auto signTime = 0;
+        std::uint32_t signTime = 0;
 
         if (! getConfig().RUN_STANDALONE)
-            getApp().getValidations().getValidationTime(
+            signTime = getApp().getValidations().getValidationTime(
                 l->getHash(), mMinValidations);
 
         if (signTime == 0)
