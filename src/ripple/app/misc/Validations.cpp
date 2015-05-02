@@ -409,6 +409,7 @@ private:
             return 0;
 
         // Return median signing time
+        std::sort (times.begin (), times.end ());
         return (times[times.size() / 2] + times[(times.size()+1) / 2]) / 2;
     }
 
