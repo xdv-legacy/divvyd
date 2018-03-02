@@ -12,7 +12,7 @@ assert      = require 'assert'
   UInt160
   Transaction
   sjcl
-}           = require 'ripple-lib'
+}           = require 'divvy-lib'
 testutils   = require './testutils'
 
 #################################### HELPERS ###################################
@@ -55,7 +55,7 @@ exports.parse_amount = parse_amount = (amt_val) ->
 exports.Balance = class Balance
   '''
   
-  Represents a parsed balance declaration, which could represent an xrp balance
+  Represents a parsed balance declaration, which could represent an xdv balance
   or an iou balance and optional limit.
   
   @amount
@@ -232,9 +232,9 @@ exports.LedgerState = class LedgerState
       obj[account_id] = val ? {}
     obj[account_id]
 
-  record_xrp: (account_id, amt)->
+  record_xdv: (account_id, amt)->
     @assert !@accounts[account_id]?,
-           "Already declared XRP for #{account_id}"
+           "Already declared XDV for #{account_id}"
     @accounts[account_id] = amt
 
   record_trust: (account_id, amt, is_balance) ->
@@ -262,7 +262,7 @@ exports.LedgerState = class LedgerState
 
   compile_accounts_balances_and_implicit_trusts: ->
     for account_id, account of @declaration.accounts
-      xrp_balance = null
+      xdv_balance = null
 
       @assert account.balance?,
              "No balance declared for #{account_id}"
@@ -284,13 +284,13 @@ exports.LedgerState = class LedgerState
                "is not valid"
 
         if amt.is_native()
-          xrp_balance = @record_xrp(account_id, amt)
+          xdv_balance = @record_xdv(account_id, amt)
         else
           @record_iou(account_id, amt)
           @record_trust(account_id, trust ? amt, true)
 
-      @assert xrp_balance,
-             "No XRP balanced declared for #{account_id}"
+      @assert xdv_balance,
+             "No XDV balanced declared for #{account_id}"
 
     undefined
 
@@ -313,10 +313,10 @@ exports.LedgerState = class LedgerState
         offers_all = @ensure('offers', offers, [])
 
         if gets_amt.is_native()
-          total = offers.xrp_total ?= new Amount.from_json('0')
+          total = offers.xdv_total ?= new Amount.from_json('0')
           new_total = total.add(gets_amt)
           @assert @accounts[account_id].compareTo(new_total) != - 1,
-            "Account #{account_id}s doesn't have enough xrp to place #{offer}"
+            "Account #{account_id}s doesn't have enough xdv to place #{offer}"
         else
           key = @amount_key gets_amt
 
@@ -371,8 +371,8 @@ exports.LedgerState = class LedgerState
 
       offers = @offers_by_ci[account_id]
       if offers?
-        if offers.xrp_total?
-          total_needed = total_needed.add  offers.xrp_total
+        if offers.xdv_total?
+          total_needed = total_needed.add  offers.xdv_total
         if offers.offers?
           owner_count += @offers_by_ci[account_id].offers.length
 
@@ -384,14 +384,14 @@ exports.LedgerState = class LedgerState
       total_needed = total_needed.add(inc_reserve_n)
 
       @assert @accounts[account_id].compareTo(total_needed) != - 1,
-             "Account #{account_id} needs more XRP for reserve"
+             "Account #{account_id} needs more XDV for reserve"
 
       @reserves[account_id] = total_needed
 
   format_payments: ->
-    # We do these first as the following @ious need xrp to issue ious ;0
-    for account_id, xrps of @accounts
-      @xrp_payments.push ['root', account_id, xrps]
+    # We do these first as the following @ious need xdv to issue ious ;0
+    for account_id, xdvs of @accounts
+      @xdv_payments.push ['root', account_id, xdvs]
 
     for account_id, ious of @ious
       for curr_issuer, amt of ious
@@ -417,13 +417,13 @@ exports.LedgerState = class LedgerState
 
   constructor: (declaration, @assert, @remote, @config) ->
     @declaration = declaration
-    @accounts = {} # {$account_id : $xrp_amt}
+    @accounts = {} # {$account_id : $xdv_amt}
     @trusts_by_ci   = {} # {$account_id : {$currency/$issuer : $iou_amt}}
     @ious     = {} # {$account_id : {$currency/$issuer : $iou_amt}}
     @offers_by_ci   = {} # {$account_id : {offers: [], $currency/$issuer : {total: $iou_amt}}}
     @reserves = {}
 
-    @xrp_payments = [] # {$account_id: []}
+    @xdv_payments = [] # {$account_id: []}
     @trusts = [] # {$account_id: []}
     @iou_payments = [] # {$account_id: []}
     @offers = [] # {$account_id: []}
@@ -448,12 +448,12 @@ exports.LedgerState = class LedgerState
       {"Account": UInt160.json_rewrite(src), "TransactionType": tt}
 
     submit_line = (src, tx_json) ->
-      "build/rippled submit #{passphrase(src)} '#{JSON.stringify tx_json}'"
+      "build/divvyd submit #{passphrase(src)} '#{JSON.stringify tx_json}'"
 
     lines = []
-    ledger_accept = -> lines.push('build/rippled ledger_accept')
+    ledger_accept = -> lines.push('build/divvyd ledger_accept')
 
-    for [src, dst, amount] in @xrp_payments
+    for [src, dst, amount] in @xdv_payments
       tx_json = make_tx_json(src, 'Payment')
       tx_json.Destination =  UInt160.json_rewrite dst
       tx_json.Amount = amount.to_json()
@@ -499,9 +499,9 @@ exports.LedgerState = class LedgerState
         extra = if extra? then extra.add(fee) else fee
         extra_fees[src] = extra
 
-    for [src, dst, amount], ix in @xrp_payments
+    for [src, dst, amount], ix in @xdv_payments
       if extra_fees[dst]?
-        @xrp_payments[ix][2] = amount.add(extra_fees[dst])
+        @xdv_payments[ix][2] = amount.add(extra_fees[dst])
 
   setup: (log, done) ->
     LOG = (m) ->
@@ -522,7 +522,7 @@ exports.LedgerState = class LedgerState
       (cb) ->
         reqs.transactor(
             Transaction::payment,
-            self.xrp_payments,
+            self.xdv_payments,
             ((src, dest, amt) ->
                LOG("Account `#{src}` creating account `#{dest}` by "+
                      "making payment of #{amt.to_text_full()}") ),
@@ -536,7 +536,7 @@ exports.LedgerState = class LedgerState
           ), cb)
       (cb) ->
         reqs.transactor(
-            Transaction::ripple_line_set,
+            Transaction::divvy_line_set,
             self.trusts,
             ((src, amt) ->
               issuer = self.realias_issuer amt.issuer().to_json()
@@ -622,13 +622,13 @@ exports.LedgerVerifier = class LedgerVerifier
     for account in account_infos
       root = account.account_data
       account_alias = @am.lookup_alias root.Account
-      asserted = @xrp_balances[account_alias]
+      asserted = @xdv_balances[account_alias]
       if asserted?
         actual = Amount.from_json root.Balance
 
         if not asserted.equals(actual)
           balance = (((errors[account_alias] ?= {})['balance'] ?= {}))
-          balance['XRP'] =
+          balance['XDV'] =
             expected: asserted.to_human()
             actual:   actual.to_human()
 
@@ -691,7 +691,7 @@ exports.LedgerVerifier = class LedgerVerifier
     reqs = @requester
 
     lines_args = args_from_keys @iou_balances
-    info_args = args_from_keys @xrp_balances
+    info_args = args_from_keys @xdv_balances
     offers_args = args_from_keys @offers
 
     async.series [
@@ -709,7 +709,7 @@ exports.LedgerVerifier = class LedgerVerifier
 
   compile_declaration: ->
     @offers = {}
-    @xrp_balances = {}
+    @xdv_balances = {}
     @iou_balances = {}
     @trusts = {}
     @realias_issuer = @am.realias_issuer
@@ -725,7 +725,7 @@ exports.LedgerVerifier = class LedgerVerifier
         for value in account.balance
           balance = new Balance(value)
           if balance.is_native
-            @xrp_balances[account_id] = balance.amount
+            @xdv_balances[account_id] = balance.amount
           else
             if balance.limit?
               record_amount account_id, @trusts, balance.limit

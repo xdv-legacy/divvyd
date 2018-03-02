@@ -6,7 +6,7 @@ async                      = require 'async'
 {
   Amount
   Meta
-}                          = require 'ripple-lib'
+}                          = require 'divvy-lib'
 
 testutils                  = require './testutils'
 
@@ -59,7 +59,7 @@ build_tx_blob_submission_series = (remote, txns_to_submit) ->
     series.push tx_blob_submit_factory remote, txn
   series
 
-compute_xrp_discrepancy = (fee, meta) ->
+compute_xdv_discrepancy = (fee, meta) ->
   before = Amount.from_json(0)
   after = Amount.from_json(fee)
 
@@ -74,7 +74,7 @@ compute_xrp_discrepancy = (fee, meta) ->
   before.subtract(after)
 
 suite 'Discrepancy test', ->
-  suite 'XRP Discrepancy', ->
+  suite 'XDV Discrepancy', ->
     get_context = server_setup_teardown({server_opts: {ledger_file: 'ledger-6226713.json'}})
     test '01030E435C2EEBE2689FED7494BC159A4C9B98D0DF0B23F7DFCE223822237E8C', (done) ->
       {remote} = get_context()
@@ -88,7 +88,7 @@ suite 'Discrepancy test', ->
         remote.request_tx hash, (e, m) ->
           meta = new Meta(m.meta)
           zero = Amount.from_json(0)
-          discrepancy = compute_xrp_discrepancy(m.Fee, meta)
+          discrepancy = compute_xdv_discrepancy(m.Fee, meta)
           assert discrepancy.equals(zero), discrepancy.to_text_full()
           done()
 
@@ -115,18 +115,18 @@ suite 'Discrepancy test', ->
 
           expected = {
             "003313896DA56CFA0996B36AF066589EF0E689230E67DA01D13320289C834A93": {
-              "pays_executed": "955.967853/XRP",
+              "pays_executed": "955.967853/XDV",
               "gets_executed": "445.6722130686/JPY/rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
-              "pays_final": "245,418.978522/XRP",
+              "pays_final": "245,418.978522/XDV",
               "gets_final": "114414.3277869564/JPY/rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
               "owner": "rQLEvSnbgpcUXkTU8VvSzUPX4scukCjuzb"
 
             },
             "9847793D6B936812907ED58455FBA4195205ABCACBE28DF9584C3A195A221E59": {
               "pays_executed": "4.19284145965/USD/rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-              "gets_executed": "955.967853/XRP",
+              "gets_executed": "955.967853/XDV",
               "pays_final": "13630.84998220238/USD/rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-              "gets_final": "3,107,833.795934/XRP",
+              "gets_final": "3,107,833.795934/XDV",
               "owner": "rEhKZcz5Ndjm9BzZmmKrtvhXPnSWByssDv"
             }
           }

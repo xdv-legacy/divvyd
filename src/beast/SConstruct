@@ -75,7 +75,7 @@ def files(base):
 /D "_CRT_SECURE_NO_WARNINGS" /D "_MBCS" /errorReport:prompt /WX- /Zc:forScope
 /RTC1 /GR /Gd /MTd /openmp- /Fa"..\..\build\obj\VisualStudio2013\Debug.x64\"
 /EHa /nologo /Fo"..\..\build\obj\VisualStudio2013\Debug.x64\"
-/Fp"..\..\build\obj\VisualStudio2013\Debug.x64\rippled.pch" 
+/Fp"..\..\build\obj\VisualStudio2013\Debug.x64\divvyd.pch" 
 '''
 
 # Path to this SConstruct file

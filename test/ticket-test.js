@@ -2,7 +2,7 @@
 
 var async       = require("async");
 var assert      = require('assert');
-var UInt160     = require("ripple-lib").UInt160;
+var UInt160     = require("divvy-lib").UInt160;
 var testutils   = require("./testutils");
 var config      = testutils.init_config();
 

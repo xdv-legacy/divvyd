@@ -8,7 +8,7 @@
 // directory?l=L&o=A&i=I     // owner directory
 // offer?l=L&offer=H
 // offer?l=L&account=A&i=I
-// ripple_state=l=L&a=A&b=A&c=C
+// divvy_state=l=L&a=A&b=A&c=C
 // account_lines?l=L&a=A
 //
 // A=address
@@ -23,7 +23,7 @@ var extend    = require("extend");
 var http      = require("http");
 var url       = require("url");
 
-var Remote    = require("ripple-lib").Remote;
+var Remote    = require("divvy-lib").Remote;
 
 var program   = process.argv[1];
 
@@ -110,7 +110,7 @@ var rewrite_field = function (type, obj, field, opts) {
 var rewrite_type = function (type, obj, opts) {
   if ('amount' === type) {
     if ('string' === typeof obj) {
-      // XRP.
+      // XDV.
       return '<B>' + obj + '</B>';
 
     } else {

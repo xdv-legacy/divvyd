@@ -1,8 +1,8 @@
 var async       = require("async");
 var assert      = require('assert');
-var Amount      = require("ripple-lib").Amount;
-var Remote      = require("ripple-lib").Remote;
-var Transaction = require("ripple-lib").Transaction;
+var Amount      = require("divvy-lib").Amount;
+var Remote      = require("divvy-lib").Remote;
+var Transaction = require("divvy-lib").Transaction;
 var Server      = require("./server").Server;
 var testutils   = require("./testutils");
 var config      = testutils.init_config();
@@ -152,7 +152,7 @@ suite("Subscribe book tests", function() {
             var request = $.remote.requestSubscribe(null);
             request.addBook({
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -211,7 +211,7 @@ suite("Subscribe book tests", function() {
             var request = $.remote.requestSubscribe(null);
             request.addBook({
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -264,7 +264,7 @@ suite("Subscribe book tests", function() {
             request.addBook({
               "both" : true,
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -324,7 +324,7 @@ suite("Subscribe book tests", function() {
             request.addBook({
               "both" : true,
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -383,7 +383,7 @@ suite("Subscribe book tests", function() {
             var request = $.remote.requestSubscribe(null);
             request.addBook({
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -456,7 +456,7 @@ suite("Subscribe book tests", function() {
             var request = $.remote.requestSubscribe(null);
             request.addBook({
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -519,7 +519,7 @@ suite("Subscribe book tests", function() {
             request.addBook({
               "both" : true,
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"
@@ -594,7 +594,7 @@ suite("Subscribe book tests", function() {
             request.addBook({
               "both" : true,
               "taker_gets" : {
-                  "currency" : "XRP"
+                  "currency" : "XDV"
               },
               "taker_pays" : {
                   "currency" : "USD", "issuer" : "root"

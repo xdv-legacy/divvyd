@@ -1,5 +1,5 @@
 module.exports = {
-  "Path Tests #1 (XRP -> XRP) and #2 (XRP -> IOU)": {
+  "Path Tests #1 (XDV -> XDV) and #2 (XDV -> IOU)": {
 
     "ledger": {"accounts": {"A1": {"balance": ["100000.0",
                                                "3500/XYZ/G1",
@@ -29,13 +29,13 @@ module.exports = {
                                      "src": "A1",
                                      "send": "10.0",
                                      "dst": "A2",
-                                     "via": "XRP"},
+                                     "via": "XDV"},
                               "A2": {"comment": "Send to non existing account",
                                      "src": "A1",
                                      "send_comment": "malformed error not great for 10.0 amount",
                                      "send": "200.0",
                                      "dst": "rBmhuVAvi372AerwzwERGjhLjqkMmAwxX",
-                                     "via": "XRP",
+                                     "via": "XDV",
                                      "n_alternatives": 0}},
                        "T2": {"A": {"alternatives": [{"amount": "100.0",
                                                            "paths": [
@@ -44,7 +44,7 @@ module.exports = {
                                     "src": "A2",
                                     "send": "10/ABC/G3",
                                     "dst": "G3",
-                                    "via": "XRP",
+                                    "via": "XDV",
                                     "debug": 0,
                                     "n_alternatives": 1},
                               "B": {"alternatives": [{"amount": "10.0",
@@ -53,7 +53,7 @@ module.exports = {
                                     "src": "A1",
                                     "send": "1/ABC/A2",
                                     "dst": "A2",
-                                    "via": "XRP",
+                                    "via": "XDV",
                                     "n_alternatives": 1},
                               "C": {"alternatives": [{"amount": "10.0",
                                                       "paths": [["ABC/G3|$",
@@ -62,9 +62,9 @@ module.exports = {
                                     "src": "A1",
                                     "send": "1/ABC/A3",
                                     "dst": "A3",
-                                    "via": "XRP",
+                                    "via": "XDV",
                                     "n_alternatives": 1}}}},
- "Path Tests #3 (non-XRP to XRP)": {
+ "Path Tests #3 (non-XDV to XDV)": {
 
     "ledger": {"accounts": {"A1": {"balance": ["1000.0",
                                                "1000/ABC/G3"]},
@@ -79,7 +79,7 @@ module.exports = {
 
     "paths_expected": {"T3": {"A": {"alternatives": [{"amount": "1/ABC/A1",
                                                       "paths": [["ABC/G3|G3",
-                                                                 "XRP|$"]]}],
+                                                                 "XDV|$"]]}],
                                     "src": "A1",
                                     "dst": "A2",
                                     "debug":false,

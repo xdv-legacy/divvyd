@@ -25,7 +25,7 @@ let it run 16 threads!
 
 **Debug**
 
-Start a new Eclipse debug configuration and set binary to run to build/rippled
+Start a new Eclipse debug configuration and set binary to run to build/divvyd
 (assuming you have built it).  
 
 ![debug](debug.png) 

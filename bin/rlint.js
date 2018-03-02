@@ -1,10 +1,10 @@
 #!/usr/bin/node
 
 var async       = require('async');
-var Remote      = require('ripple-lib').Remote;
-var Transaction = require('ripple-lib').Transaction;
-var UInt160     = require('ripple-lib').UInt160;
-var Amount      = require('ripple-lib').Amount;
+var Remote      = require('divvy-lib').Remote;
+var Transaction = require('divvy-lib').Transaction;
+var UInt160     = require('divvy-lib').UInt160;
+var Amount      = require('divvy-lib').Amount;
 
 var book_key = function (book) {
   return book.taker_pays.currency
@@ -71,7 +71,7 @@ var ledger_verify = function (ledger) {
       }
     });
 
-  var ripple_selfs  = {};
+  var divvy_selfs  = {};
 
   var accounts  = {};
   var counts    = {};
@@ -81,7 +81,7 @@ var ledger_verify = function (ledger) {
       {
         counts[entry.Account] = (counts[entry.Account] || 0) + 1;
       }
-      else if (entry.LedgerEntryType === 'RippleState')
+      else if (entry.LedgerEntryType === 'DivvyState')
       {
         if (entry.Flags & (0x10000 | 0x40000))
         {
@@ -94,7 +94,7 @@ var ledger_verify = function (ledger) {
         }
 
         if (entry.HighLimit.issuer === entry.LowLimit.issuer)
-          ripple_selfs[entry.Account] = entry;
+          divvy_selfs[entry.Account] = entry;
       }
       else if (entry.LedgerEntryType == 'AccountRoot')
       {
@@ -157,8 +157,8 @@ var ledger_verify = function (ledger) {
   if (missing_accounts)
     console.log("missing_accounts = %s", missing_accounts);
 
-  if (Object.keys(ripple_selfs).length)
-    console.log("RippleState selfs = %s", Object.keys(ripple_selfs).length);
+  if (Object.keys(divvy_selfs).length)
+    console.log("DivvyState selfs = %s", Object.keys(divvy_selfs).length);
 
 };
 

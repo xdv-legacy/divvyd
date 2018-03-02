@@ -1,8 +1,8 @@
 #!/usr/bin/node
 //
-// This program allows IE 9 ripple-clients to make websocket connections to
-// rippled using flash.  As IE 9 does not have websocket support, this required
-// if you wish to support IE 9 ripple-clients.
+// This program allows IE 9 divvy-clients to make websocket connections to
+// divvyd using flash.  As IE 9 does not have websocket support, this required
+// if you wish to support IE 9 divvy-clients.
 //
 // http://www.lightsphere.com/dev/articles/flash_socket_policy.html
 //

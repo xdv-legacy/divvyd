@@ -1,8 +1,8 @@
 var async       = require("async");
 var assert      = require('assert');
-var Amount      = require("ripple-lib").Amount;
-var Remote      = require("ripple-lib").Remote;
-var Transaction = require("ripple-lib").Transaction;
+var Amount      = require("divvy-lib").Amount;
+var Remote      = require("divvy-lib").Remote;
+var Transaction = require("divvy-lib").Transaction;
 var Server      = require("./server").Server;
 var testutils   = require("./testutils");
 var config      = testutils.init_config();
@@ -29,7 +29,7 @@ suite('Basic path finding', function() {
 
         function (callback) {
           self.what = "Find path from alice to bob";
-          var request = $.remote.request_ripple_path_find("alice", "bob", "5/USD/bob", [ { 'currency' : "USD" } ]);
+          var request = $.remote.request_divvy_path_find("alice", "bob", "5/USD/bob", [ { 'currency' : "USD" } ]);
           request.callback(function(err, m) {
             if (m.alternatives.length) {
               callback(new Error(m));
@@ -86,7 +86,7 @@ suite('Basic path finding', function() {
 //          },
         function (callback) {
           self.what = "Find path from alice to bob";
-          $.remote.request_ripple_path_find("alice", "bob", "5/USD/bob",
+          $.remote.request_divvy_path_find("alice", "bob", "5/USD/bob",
             [ { 'currency' : "USD" } ])
             .on('success', function (m) {
                 // console.log("proposed: %s", JSON.stringify(m));
@@ -198,7 +198,7 @@ suite('Basic path finding', function() {
         function (callback) {
           self.what = "Find path from alice to mtgox";
 
-          $.remote.request_ripple_path_find("alice", "bob", "5/USD/mtgox",
+          $.remote.request_divvy_path_find("alice", "bob", "5/USD/mtgox",
             [ { 'currency' : "USD" } ])
             .on('success', function (m) {
                 // console.log("proposed: %s", JSON.stringify(m));
@@ -481,7 +481,7 @@ suite('More path finding', function() {
     function (callback) {
       self.what = "Find path from alice to bob";
 
-      $.remote.request_ripple_path_find("alice", "bob", "5/USD/bob",
+      $.remote.request_divvy_path_find("alice", "bob", "5/USD/bob",
          [ { 'currency' : "USD" } ])
          .on('success', function (m) {
            // console.log("proposed: %s", JSON.stringify(m));
@@ -716,7 +716,7 @@ suite('More path finding', function() {
               self.what = "Find path from alice to bob";
 
               // 5. acct 1 sent a 25 usd iou to acct 2
-              $.remote.request_ripple_path_find("alice", "bob", "25/USD/bob",
+              $.remote.request_divvy_path_find("alice", "bob", "25/USD/bob",
                 [ { 'currency' : "USD" } ])
                 .on('success', function (m) {
                     // console.log("proposed: %s", JSON.stringify(m));
@@ -762,7 +762,7 @@ suite('More path finding', function() {
     // alice --> carol --> dan --> bob
     // Balance of 100 USD Bob - Balance of 37 USD -> Rod
     //
-    test("path negative: ripple-client issue #23: smaller", function (done) {
+    test("path negative: divvy-client issue #23: smaller", function (done) {
         var self = this;
 
         async.waterfall([
@@ -824,7 +824,7 @@ suite('More path finding', function() {
     // alice -120 USD-> amazon -25 USD-> bob
     // alice -25 USD-> carol -75 USD -> dan -100 USD-> bob
     //
-    test("path negative: ripple-client issue #23: larger", function (done) {
+    test("path negative: divvy-client issue #23: larger", function (done) {
         var self = this;
 
         async.waterfall([
@@ -898,9 +898,9 @@ suite('More path finding', function() {
       testutils.build_teardown().call($, done);
     });
 
-    //carol holds mtgoxAUD, sells mtgoxAUD for XRP
+    //carol holds mtgoxAUD, sells mtgoxAUD for XDV
       //bob will hold mtgoxAUD
-    //alice pays bob mtgoxAUD using XRP
+    //alice pays bob mtgoxAUD using XDV
     test("via gateway", function (done) {
       var self = this;
 
@@ -955,7 +955,7 @@ suite('More path finding', function() {
         .submit();
       },
       function (callback) {
-        self.what = "Alice sends bob 10/AUD/mtgox using XRP.";
+        self.what = "Alice sends bob 10/AUD/mtgox using XDV.";
 
         //XXX Also try sending 10/AUX/bob
         $.remote.transaction()
@@ -994,7 +994,7 @@ suite('More path finding', function() {
         self.what = "Find path from alice to bob";
 
         // 5. acct 1 sent a 25 usd iou to acct 2
-        $.remote.request_ripple_path_find("alice", "bob", "25/USD/bob",
+        $.remote.request_divvy_path_find("alice", "bob", "25/USD/bob",
           [ { 'currency' : "USD" } ])
           .on('success', function (m) {
             // console.log("proposed: %s", JSON.stringify(m));
@@ -1010,10 +1010,10 @@ suite('More path finding', function() {
       });
     });
 
-    //carol holds mtgoxAUD, sells mtgoxAUD for XRP
+    //carol holds mtgoxAUD, sells mtgoxAUD for XDV
     //bob will hold mtgoxAUD
-    //alice pays bob mtgoxAUD using XRP
-    test.skip("via gateway : FIX ME fails due to XRP rounding and not properly handling dry.", function (done) {
+    //alice pays bob mtgoxAUD using XDV
+    test.skip("via gateway : FIX ME fails due to XDV rounding and not properly handling dry.", function (done) {
       var self = this;
 
       async.waterfall([
@@ -1067,7 +1067,7 @@ suite('More path finding', function() {
         .submit();
       },
       function (callback) {
-        self.what = "Alice sends bob 10/AUD/mtgox using XRP.";
+        self.what = "Alice sends bob 10/AUD/mtgox using XDV.";
 
         // XXX Also try sending 10/AUX/bob
         $.remote.transaction()
@@ -1106,7 +1106,7 @@ suite('More path finding', function() {
       //            self.what = "Find path from alice to bob";
       //
       //            // 5. acct 1 sent a 25 usd iou to acct 2
-      //            $.remote.request_ripple_path_find("alice", "bob", "25/USD/bob",
+      //            $.remote.request_divvy_path_find("alice", "bob", "25/USD/bob",
       //              [ { 'currency' : "USD" } ])
       //              .on('success', function (m) {
       //                  // console.log("proposed: %s", JSON.stringify(m));
@@ -1158,7 +1158,7 @@ suite('Indirect paths', function() {
           function (callback) {
             self.what = "Find path from alice to carol";
 
-            $.remote.request_ripple_path_find("alice", "carol", "5/USD/carol",
+            $.remote.request_divvy_path_find("alice", "carol", "5/USD/carol",
               [ { 'currency' : "USD" } ])
               .on('success', function (m) {
                   // console.log("proposed: %s", JSON.stringify(m));

@@ -1,0 +1,219 @@
+//------------------------------------------------------------------------------
+/*
+    This file is part of divvyd: https://github.com/xdv/divvyd
+    Copyright (c) 2012-2014 Ripple Labs Inc.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose  with  or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE  SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH  REGARD  TO  THIS  SOFTWARE  INCLUDING  ALL  IMPLIED  WARRANTIES  OF
+    MERCHANTABILITY  AND  FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY  SPECIAL ,  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER  RESULTING  FROM  LOSS  OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION  OF  CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+//==============================================================================
+
+#include <BeastConfig.h>
+#include <divvy/rpc/impl/LookupLedger.h>
+
+namespace divvy {
+namespace RPC {
+
+namespace {
+
+bool isValidatedOld ()
+{
+    if (getConfig ().RUN_STANDALONE)
+        return false;
+
+    return getApp ().getLedgerMaster ().getValidatedLedgerAge () >
+        Tuning::maxValidatedLedgerAge;
+}
+
+Status ledgerFromRequest (
+    Json::Value const& params,
+    Ledger::pointer& ledger,
+    NetworkOPs& netOps)
+{
+    static auto const minSequenceGap = 10;
+
+    ledger.reset();
+
+    auto indexValue = params[jss::ledger_index];
+    auto hashValue = params[jss::ledger_hash];
+
+    // We need to support the legacy "ledger" field.
+    auto& legacyLedger = params[jss::ledger];
+    if (!legacyLedger.empty())
+    {
+        if (legacyLedger.asString().size () > 12)
+            hashValue = legacyLedger;
+        else
+            indexValue = legacyLedger;
+    }
+
+    if (!hashValue.empty())
+    {
+        if (! hashValue.isString ())
+            return {rpcINVALID_PARAMS, "ledgerHashNotString"};
+
+        uint256 ledgerHash;
+        if (! ledgerHash.SetHex (hashValue.asString ()))
+            return {rpcINVALID_PARAMS, "ledgerHashMalformed"};
+
+        ledger = netOps.getLedgerByHash (ledgerHash);
+        if (ledger == nullptr)
+            return {rpcLGR_NOT_FOUND, "ledgerNotFound"};
+    }
+    else if (indexValue.isNumeric())
+    {
+        ledger = netOps.getLedgerBySeq (indexValue.asInt ());
+        if (ledger == nullptr)
+            return {rpcLGR_NOT_FOUND, "ledgerNotFound"};
+
+        if (ledger->getLedgerSeq () > netOps.getValidatedSeq () &&
+            isValidatedOld ())
+        {
+            ledger.reset();
+            return {rpcNO_NETWORK, "InsufficientNetworkMode"};
+        }
+    }
+    else
+    {
+        if (isValidatedOld ())
+            return {rpcNO_NETWORK, "InsufficientNetworkMode"};
+
+        auto const index = indexValue.asString ();
+        if (index == "validated")
+        {
+            ledger = netOps.getValidatedLedger ();
+            if (ledger == nullptr)
+                return {rpcNO_NETWORK, "InsufficientNetworkMode"};
+
+            assert (ledger->isClosed ());
+        }
+        else
+        {
+            if (index.empty () || index == "current")
+            {
+                ledger = netOps.getCurrentLedger ();
+                assert (! ledger->isClosed ());
+            }
+            else if (index == "closed")
+            {
+                ledger = netOps.getClosedLedger ();
+                assert (ledger->isClosed ());
+            }
+            else
+            {
+                return {rpcINVALID_PARAMS, "ledgerIndexMalformed"};
+            }
+
+            if (ledger == nullptr)
+                return {rpcNO_NETWORK, "InsufficientNetworkMode"};
+
+            if (ledger->getLedgerSeq () + minSequenceGap <
+                netOps.getValidatedSeq ())
+            {
+                ledger.reset ();
+                return {rpcNO_NETWORK, "InsufficientNetworkMode"};
+            }
+        }
+
+        assert (ledger->isImmutable ());
+    }
+
+    return Status::OK;
+}
+
+bool isValidated (Ledger& ledger)
+{
+    if (ledger.isValidated ())
+        return true;
+
+    if (!ledger.isClosed ())
+        return false;
+
+    auto seq = ledger.getLedgerSeq();
+    try
+    {
+        // Use the skip list in the last validated ledger to see if ledger
+        // comes before the last validated ledger (and thus has been
+        // validated).
+        auto hash = getApp().getLedgerMaster ().walkHashBySeq (seq);
+        if (ledger.getHash() != hash)
+            return false;
+    }
+    catch (SHAMapMissingNode const&)
+    {
+        WriteLog (lsWARNING, RPCHandler)
+                << "Missing SHANode " << std::to_string (seq);
+        return false;
+    }
+
+    // Mark ledger as validated to save time if we see it again.
+    ledger.setValidated();
+    return true;
+}
+
+} // namespace
+
+// The previous version of the lookupLedger command would accept the
+// "ledger_index" argument as a string and silently treat it as a request to
+// return the current ledger which, while not strictly wrong, could cause a lot
+// of confusion.
+//
+// The code now robustly validates the input and ensures that the only possible
+// values for the "ledger_index" parameter are the index of a ledger passed as
+// an integer or one of the strings "current", "closed" or "validated".
+// Additionally, the code ensures that the value passed in "ledger_hash" is a
+// string and a valid hash. Invalid values will return an appropriate error
+// code.
+//
+// In the absence of the "ledger_hash" or "ledger_index" parameters, the code
+// assumes that "ledger_index" has the value "current".
+//
+// Returns a Json::objectValue.  If there was an error, it will be in that
+// return value.  Otherwise, the object contains the field "validated" and
+// optionally the fields "ledger_hash", "ledger_index" and
+// "ledger_current_index", if they are defined.
+Status lookupLedger (
+    Json::Value const& params,
+    Ledger::pointer& ledger,
+    NetworkOPs& netOps,
+    Json::Value& jsonResult)
+{
+    if (auto status = ledgerFromRequest (params, ledger, netOps))
+        return status;
+
+    if (ledger->isClosed ())
+    {
+        jsonResult[jss::ledger_hash] = to_string (ledger->getHash());
+        jsonResult[jss::ledger_index] = ledger->getLedgerSeq();
+    }
+    else
+    {
+        jsonResult[jss::ledger_current_index] = ledger->getLedgerSeq();
+    }
+    jsonResult[jss::validated] = isValidated (*ledger);
+    return Status::OK;
+}
+
+Json::Value lookupLedger (
+    Json::Value const& params,
+    Ledger::pointer& ledger,
+    NetworkOPs& netOps)
+{
+    Json::Value value (Json::objectValue);
+    if (auto status = lookupLedger (params, ledger, netOps, value))
+        status.inject (value);
+
+    return value;
+}
+
+} // RPC
+} // divvy

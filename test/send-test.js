@@ -1,7 +1,7 @@
 var async     = require("async");
 var assert    = require('assert');
-var Amount    = require("ripple-lib").Amount;
-var Remote    = require("ripple-lib").Remote;
+var Amount    = require("divvy-lib").Amount;
+var Remote    = require("divvy-lib").Remote;
 var Server    = require("./server").Server;
 var testutils = require("./testutils");
 var config    = testutils.init_config();
@@ -17,7 +17,7 @@ suite('Sending', function() {
     testutils.build_teardown().call($, done);
   });
 
-  test("send XRP to non-existent account with insufficent fee", function (done) {
+  test("send XDV to non-existent account with insufficent fee", function (done) {
     var self    = this;
     var ledgers = 20;
     var got_proposed;
@@ -27,13 +27,13 @@ suite('Sending', function() {
     .once('submitted', function (m) {
       // Transaction got an error.
       // console.log("proposed: %s", JSON.stringify(m));
-      assert.strictEqual(m.engine_result, 'tecNO_DST_INSUF_XRP');
+      assert.strictEqual(m.engine_result, 'tecNO_DST_INSUF_XDV');
       got_proposed  = true;
       $.remote.ledger_accept();    // Move it along.
     })
     .once('final', function (m) {
       // console.log("final: %s", JSON.stringify(m, undefined, 2));
-      assert.strictEqual(m.engine_result, 'tecNO_DST_INSUF_XRP');
+      assert.strictEqual(m.engine_result, 'tecNO_DST_INSUF_XDV');
       done();
     })
     .submit();
@@ -42,7 +42,7 @@ suite('Sending', function() {
   // Also test transaction becomes lost after tecNO_DST.
   test("credit_limit to non-existent account = tecNO_DST", function (done) {
     $.remote.transaction()
-    .ripple_line_set("root", "100/USD/alice")
+    .divvy_line_set("root", "100/USD/alice")
     .once('submitted', function (m) {
       //console.log("proposed: %s", JSON.stringify(m));
       assert.strictEqual(m.engine_result, 'tecNO_DST');
@@ -63,8 +63,8 @@ suite('Sending', function() {
       function (callback) {
         self.what = "Check a non-existent credit limit.";
 
-        $.remote.request_ripple_balance("alice", "mtgox", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "mtgox", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           callback(new Error(m));
         })
         .on('error', function(m) {
@@ -83,8 +83,8 @@ suite('Sending', function() {
       },
 
       function (callback) {
-        $.remote.request_ripple_balance("alice", "mtgox", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "mtgox", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           //                console.log("BALANCE: %s", JSON.stringify(m));
           //                console.log("account_balance: %s", m.account_balance.to_text_full());
           //                console.log("account_limit: %s", m.account_limit.to_text_full());
@@ -106,8 +106,8 @@ suite('Sending', function() {
       },
 
       function (callback) {
-        $.remote.request_ripple_balance("alice", "mtgox", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "mtgox", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           assert(m.account_balance.equals("0/USD/alice"));
           assert(m.account_limit.equals("700/USD/mtgox"));
           assert(m.peer_balance.equals("0/USD/mtgox"));
@@ -120,7 +120,7 @@ suite('Sending', function() {
       // Set negative limit.
       function (callback) {
         $.remote.transaction()
-        .ripple_line_set("alice", "-1/USD/mtgox")
+        .divvy_line_set("alice", "-1/USD/mtgox")
         .once('submitted', function (m) {
           assert.strictEqual('temBAD_LIMIT', m.engine_result);
           callback();
@@ -148,8 +148,8 @@ suite('Sending', function() {
       function (callback) {
         self.what = "Make sure line is deleted.";
 
-        $.remote.request_ripple_balance("alice", "mtgox", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "mtgox", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           // Used to keep lines.
           // assert(m.account_balance.equals("0/USD/alice"));
           // assert(m.account_limit.equals("0/USD/alice"));
@@ -178,10 +178,10 @@ suite('Sending', function() {
       },
 
       function (callback) {
-        self.what = "Check ripple_line's state from alice's pov.";
+        self.what = "Check divvy_line's state from alice's pov.";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           // console.log("proposed: %s", JSON.stringify(m));
 
           assert(m.account_balance.equals("0/USD/alice"));
@@ -195,10 +195,10 @@ suite('Sending', function() {
       },
 
       function (callback) {
-        self.what = "Check ripple_line's state from bob's pov.";
+        self.what = "Check divvy_line's state from bob's pov.";
 
-        $.remote.request_ripple_balance("bob", "alice", "USD", 'CURRENT')
-        .on('ripple_state', function (m) {
+        $.remote.request_divvy_balance("bob", "alice", "USD", 'CURRENT')
+        .on('divvy_state', function (m) {
           assert(m.account_balance.equals("0/USD/bob"));
           assert(m.account_limit.equals("500/USD/alice"));
           assert(m.peer_balance.equals("0/USD/alice"));
@@ -228,7 +228,7 @@ suite('Sending future', function() {
     testutils.build_teardown().call($, done);
   });
 
-  test('direct ripple', function(done) {
+  test('direct divvy', function(done) {
     var self = this;
 
     // $.remote.set_trace();
@@ -267,8 +267,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance.";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("-24/USD/alice"));
           assert(m.peer_balance.equals("24/USD/bob"));
 
@@ -295,8 +295,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance from bob's pov.";
 
-        $.remote.request_ripple_balance("bob", "alice", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("bob", "alice", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("57/USD/bob"));
           assert(m.peer_balance.equals("-57/USD/alice"));
 
@@ -323,8 +323,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance from alice's pov: 1";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("33/USD/alice"));
 
           callback();
@@ -350,8 +350,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance from alice's pov: 2";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("-700/USD/alice"));
 
           callback();
@@ -377,8 +377,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance from alice's pov: 3";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("600/USD/alice"));
 
           callback();
@@ -402,8 +402,8 @@ suite('Sending future', function() {
       function (callback) {
         self.what = "Verify balance from alice's pov: 4";
 
-        $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-        .once('ripple_state', function (m) {
+        $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+        .once('divvy_state', function (m) {
           assert(m.account_balance.equals("600/USD/alice"));
 
           callback();
@@ -425,8 +425,8 @@ suite('Sending future', function() {
       //        function (callback) {
       //          self.what = "Verify balance from alice's pov: 5";
       //
-      //          $.remote.request_ripple_balance("alice", "bob", "USD", 'CURRENT')
-      //            .once('ripple_state', function (m) {
+      //          $.remote.request_divvy_balance("alice", "bob", "USD", 'CURRENT')
+      //            .once('divvy_state', function (m) {
       //                console.log("account_balance: %s", m.account_balance.to_text_full());
       //                console.log("account_limit: %s", m.account_limit.to_text_full());
       //                console.log("peer_balance: %s", m.peer_balance.to_text_full());
@@ -1022,7 +1022,7 @@ suite('Gateway', function() {
 });
 
 
-suite('Indirect ripple', function() {
+suite('Indirect divvy', function() {
   var $ = { };
 
   setup(function(done) {
@@ -1033,7 +1033,7 @@ suite('Indirect ripple', function() {
     testutils.build_teardown().call($, done);
   });
 
-  test("indirect ripple", function (done) {
+  test("indirect divvy", function (done) {
     var self = this;
 
     // $.remote.set_trace();
@@ -1101,7 +1101,7 @@ suite('Indirect ripple', function() {
     });
   });
 
-  test("indirect ripple with path", function (done) {
+  test("indirect divvy with path", function (done) {
     var self = this;
 
     var steps = [
@@ -1158,7 +1158,7 @@ suite('Indirect ripple', function() {
     });
   });
 
-  test("indirect ripple with multi path", function (done) {
+  test("indirect divvy with multi path", function (done) {
     var self = this;
 
     var steps = [
@@ -1218,7 +1218,7 @@ suite('Indirect ripple', function() {
     });
   });
 
-  test("indirect ripple with path and transfer fee", function (done) {
+  test("indirect divvy with path and transfer fee", function (done) {
     var self = this;
 
     var steps = [

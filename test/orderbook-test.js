@@ -1,8 +1,8 @@
 var async       = require('async');
 var assert      = require('assert-diff');
-var Account     = require('ripple-lib').UInt160;
-var Remote      = require('ripple-lib').Remote;
-var Transaction = require('ripple-lib').Transaction;
+var Account     = require('divvy-lib').UInt160;
+var Remote      = require('divvy-lib').Remote;
+var Transaction = require('divvy-lib').Transaction;
 var testutils   = require('./testutils');
 var config      = testutils.init_config();
 
@@ -96,7 +96,7 @@ suite('Order Book', function() {
       function (callback) {
         self.what = 'Create offer';
 
-        // get 4000/XRP pay 10/USD : offer pays 10 USD for 4000 XRP
+        // get 4000/XDV pay 10/USD : offer pays 10 USD for 4000 XDV
         var tx = $.remote.transaction('OfferCreate', {
           account: 'alice',
           taker_pays: '4000',
@@ -116,7 +116,7 @@ suite('Order Book', function() {
         self.what = 'Create order book';
 
         var ob = $.remote.createOrderBook({
-          currency_pays: 'XRP',
+          currency_pays: 'XDV',
           issuer_gets: Account.json_rewrite('mtgox'),
           currency_gets: 'USD'
         });
@@ -157,7 +157,7 @@ suite('Order Book', function() {
       function (ob, callback) {
         self.what = 'Create offer';
 
-        // get 5/USD pay 2000/XRP: offer pays 2000 XRP for 5 USD
+        // get 5/USD pay 2000/XDV: offer pays 2000 XDV for 5 USD
         var tx = $.remote.transaction('OfferCreate', {
           account: 'bob',
           taker_pays: '5/USD/mtgox',

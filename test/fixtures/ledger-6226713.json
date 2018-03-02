@@ -25,7 +25,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "ratarRi5YVgBDTHbt7rTPdmCMehH6zge2T",
@@ -49,7 +49,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rDr83LqpsNJtJ9CouPxwf2pFEhdEuoCM4z",
@@ -124,7 +124,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rajrdNafcXefrq4pYW1YAjMUDoxttSLefM",
@@ -148,7 +148,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rNruDQQDBM117pzRob2Br211HJrFKxk3tB",
@@ -205,7 +205,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "r38Mwd8s2gFevETqCK8e34JYfWBjLUB2nH",
@@ -280,7 +280,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rpvawRMyKug1gdTCbJWGtHs4yNzHMgcg22",
@@ -304,7 +304,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "r3Y3Hh7abFiS9sTgCenK2kk2iToRhFfNs6",
@@ -375,7 +375,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "ra64fg3awuMmrXcVjdDbYzTLFGcWKW1FPc",
@@ -450,7 +450,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rLqAVKdGpJt2XpNiF9QKTpjn3AGTQbc6u4",
@@ -474,7 +474,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rKX9Rb3ygKmYYsQfYvv3KXmRuwJ3AoLbLq",
@@ -540,7 +540,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "r9RR643anesxNCoNkkuYfEfzpxZUeK5Qzw",
@@ -604,7 +604,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rpNEwuT1D3TkmeTq8tu6nsPgeKe8oWJ9kN",
@@ -670,7 +670,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
@@ -752,7 +752,7 @@
                 "value": "30000"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
@@ -787,7 +787,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "r34iSwVNKXQZVzqPB8ZEuUwT7dsjQhdaJu",
@@ -886,7 +886,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "ra284e11Q432pmnoKJY9WC77XN8GUsQvYc",
@@ -1290,7 +1290,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rwonczT4eRKiEPb3YvcViUxvSxgJuPfngh",
@@ -1314,7 +1314,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "racJpvgLpaNQGKB8nhKd1gTEVVA1uQWRKs",
@@ -1378,7 +1378,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rpRzczN3gPxXMRzqMR98twVsH63xATHUb7",
@@ -1431,7 +1431,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rqb6b8GZn9BTYnhbs4wiMQEoeqw8UnAE5",
@@ -1621,7 +1621,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rUZjAUwatwbS2WHGYNNwbcv8QvYYq8QLC3",
@@ -1656,7 +1656,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rhsxr2aAddyCKx5iZctebT4Padxv6iWDxb",
@@ -1691,7 +1691,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rwFdyL8LVBYkRu8nwkJNKiScRMZnjcrBu6",
@@ -1727,7 +1727,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rpW8wvWYx1SZbYKJVXt9A7rtayPgULa11B",
@@ -1769,7 +1769,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rG1JXRtt7VqxwRt4CNASY1KCJ8xZtMAvCy",
@@ -1856,7 +1856,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rKL5uUYcpSGcsVe2Yen5okfhGvi4J57mcM",
@@ -1910,7 +1910,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "CNY",
                 "issuer": "rE46UhBPrBmWAbuthcEgVL4dQs3khM4fnP",
@@ -1988,7 +1988,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rU8axbJNWix3k3LCTXtL8T8LeFtv88ibMe",
@@ -2168,7 +2168,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rhTUpdUStwn7wPnzNMjHEfFgQacPC5eop1",
@@ -2203,7 +2203,7 @@
                 "value": "3012"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "CNY",
                 "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA",
@@ -2245,7 +2245,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rw7dJmysoqzguZDYyULBh5HqXdNQikMDtc",
@@ -3033,7 +3033,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rKE2TX794t8Aoqe25AvWKWvKi1igXJpBUi",
@@ -3133,7 +3133,7 @@
                 "value": "50000"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "CNY",
                 "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA",
@@ -3186,7 +3186,7 @@
                 "value": "200000"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "CNY",
                 "issuer": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA",
@@ -3247,7 +3247,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rUQwWJBVPBbEQ6CoaoJKeGH8HDWDwysERb",
@@ -3452,7 +3452,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rHpoggSkNY7puahMUGVafWPZQ5JH8piZVQ",
@@ -3491,7 +3491,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rHqtzHk6nWaBtJ1srDGaKaJU6kEGPDWiLy",
@@ -3515,7 +3515,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rngNbgfn7cT4bHbHJPNoPY12R66a4RMMaa",
@@ -3539,7 +3539,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rUkPuKD5mEkvnrPcvBeBSqe1m9isAMVX5M",
@@ -3731,7 +3731,7 @@
                 "value": "25000"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
@@ -3773,7 +3773,7 @@
                 "value": "0"
             },
             "HighNode": "0000000000000000",
-            "LedgerEntryType": "RippleState",
+            "LedgerEntryType": "DivvyState",
             "LowLimit": {
                 "currency": "JPY",
                 "issuer": "rho8mvSESSmVPkF4UiyF8pTJBGMcVx2Uv1",

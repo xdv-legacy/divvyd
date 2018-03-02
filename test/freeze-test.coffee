@@ -10,7 +10,7 @@ async                      = require 'async'
   UInt160
   Transaction
   Amount
-}                          = require 'ripple-lib'
+}                          = require 'divvy-lib'
 
 testutils                  = require './testutils'
 
@@ -83,7 +83,7 @@ Flag Definitions
 LedgerEntry flags
 -----------------
 
-RippleState
+DivvyState
 
   LowFreeze     0x00400000
   HighFreeze    0x00800000
@@ -154,11 +154,11 @@ Flags =
       PasswordSpent:   0x00010000
       RequireDestTag:  0x00020000
       RequireAuth:     0x00040000
-      DisallowXRP:     0x00080000
+      DisallowXDV:     0x00080000
       NoFreeze:        0x00200000
       GlobalFreeze:    0x00400000
 
-    RippleState:
+    DivvyState:
       LowFreeze:      0x00400000
       HighFreeze:     0x00800000
   tx:
@@ -174,7 +174,7 @@ Flags =
 
 
 Transaction.flags.TrustSet ||= {};
-# Monkey Patch SetFreeze and ClearFreeze into old version of ripple-lib
+# Monkey Patch SetFreeze and ClearFreeze into old version of divvy-lib
 Transaction.flags.TrustSet.SetFreeze = Flags.tx.TrustSet.SetFreeze
 Transaction.flags.TrustSet.ClearFreeze = Flags.tx.TrustSet.ClearFreeze
 
@@ -360,7 +360,7 @@ conditional_test_factory = ->
 
 execute_if_enabled (suite, enforced) ->
   suite 'Freeze Feature', ->
-    suite 'RippleState Freeze', ->
+    suite 'DivvyState Freeze', ->
       # test = suite_test_bailer()
       [test, test_if] = conditional_test_factory()
       h = null
@@ -394,18 +394,18 @@ execute_if_enabled (suite, enforced) ->
           {remote} = h
 
           tx = remote.transaction()
-          tx.ripple_line_set('G1', '0/USD/bob')
+          tx.divvy_line_set('G1', '0/USD/bob')
           tx.set_flags('SetFreeze')
 
           submit_for_final tx, (m) ->
             assert.equal m.metadata?.TransactionResult, 'tesSUCCESS'
             affected = m.metadata.AffectedNodes
             assert affected.length > 1, "only one affected node implies a noop"
-            ripple_state = affected[1].ModifiedNode
-            final = ripple_state.FinalFields
+            divvy_state = affected[1].ModifiedNode
+            final = divvy_state.FinalFields
             assert.equal h.alias_for(final.LowLimit.issuer), 'G1'
-            assert final.Flags & Flags.sle.RippleState.LowFreeze
-            assert !(final.Flags & Flags.sle.RippleState.HighFreeze)
+            assert final.Flags & Flags.sle.DivvyState.LowFreeze
+            assert !(final.Flags & Flags.sle.DivvyState.HighFreeze)
 
             done()
 
@@ -464,17 +464,17 @@ execute_if_enabled (suite, enforced) ->
           {remote} = h
 
           tx = remote.transaction()
-          tx.ripple_line_set('G1', '0/USD/bob')
+          tx.divvy_line_set('G1', '0/USD/bob')
           tx.set_flags('ClearFreeze')
 
           submit_for_final tx, (m) ->
             assert.equal m.metadata?.TransactionResult, 'tesSUCCESS'
             affected = m.metadata.AffectedNodes
-            ripple_state = affected[1].ModifiedNode
-            final = ripple_state.FinalFields
+            divvy_state = affected[1].ModifiedNode
+            final = divvy_state.FinalFields
             assert.equal h.alias_for(final.LowLimit.issuer), 'G1'
-            assert !(final.Flags & Flags.sle.RippleState.LowFreeze)
-            assert !(final.Flags & Flags.sle.RippleState.HighFreeze)
+            assert !(final.Flags & Flags.sle.DivvyState.LowFreeze)
+            assert !(final.Flags & Flags.sle.DivvyState.HighFreeze)
 
             done()
 
@@ -536,7 +536,7 @@ execute_if_enabled (suite, enforced) ->
           test 'where taker_gets is $unfrozen_issuer', (done) ->
             {remote} = h = get_helpers()
 
-            h.book_offers 'XRP', 'USD/G1', (book) ->
+            h.book_offers 'XDV', 'USD/G1', (book) ->
               assert.equal book.offers.length, 2
 
               aliases = (h.alias_for(o.Account) for o in book.offers).sort()
@@ -547,7 +547,7 @@ execute_if_enabled (suite, enforced) ->
               done()
 
           test 'where taker_pays is $unfrozen_issuer', (done) ->
-            h.book_offers 'USD/G1', 'XRP', (book) ->
+            h.book_offers 'USD/G1', 'XDV', (book) ->
 
               assert.equal book.offers.length, 2
               aliases = (h.alias_for(o.Account) for o in book.offers).sort()
@@ -628,7 +628,7 @@ execute_if_enabled (suite, enforced) ->
           test.skip 'books_offers(*, $frozen_account/*) shows offers '+
                'owned by $frozen_account only', (done) ->
 
-            h.book_offers 'XRP', 'USD/G1', (book) ->
+            h.book_offers 'XDV', 'USD/G1', (book) ->
               # h.alog book.offers
               assert.equal book.offers.length, 1
               done()
@@ -636,14 +636,14 @@ execute_if_enabled (suite, enforced) ->
           test.skip 'books_offers($frozen_account/*, *) shows '+
                     'no offers', (done) ->
 
-            h.book_offers 'USD/G1', 'XRP', (book) ->
+            h.book_offers 'USD/G1', 'XDV', (book) ->
               assert.equal book.offers.length, 0
               done()
 
           test_if enforced, 'books_offers(*, $frozen_account/*) shows offers '+
                'owned by $frozen_account only (broken) ', (done) ->
 
-            h.book_offers 'XRP', 'USD/G1', (book) ->
+            h.book_offers 'XDV', 'USD/G1', (book) ->
               # h.alog book.offers
               assert.equal book.offers.length, 2
               done()
@@ -651,7 +651,7 @@ execute_if_enabled (suite, enforced) ->
           test_if enforced, 'books_offers($frozen_account/*, *) '+
                             'shows no offers (broken)', (done) ->
 
-            h.book_offers 'USD/G1', 'XRP', (book) ->
+            h.book_offers 'USD/G1', 'XDV', (book) ->
               assert.equal book.offers.length, 2
               done()
 
@@ -727,7 +727,7 @@ execute_if_enabled (suite, enforced) ->
           {remote} = h = get_helpers()
 
           tx = remote.transaction()
-          tx.ripple_line_set('G1', '0/USD/A1')
+          tx.divvy_line_set('G1', '0/USD/A1')
           tx.set_flags('SetFreeze')
 
           submit_for_final tx, (m) ->
@@ -786,17 +786,17 @@ execute_if_enabled (suite, enforced) ->
 
         test 'owner of partially consumed offer\'s line is frozen', (done) ->
           tx = remote.transaction()
-          tx.ripple_line_set('G1', '0/USD/A3')
+          tx.divvy_line_set('G1', '0/USD/A3')
           tx.set_flags('SetFreeze')
 
           submit_for_final tx, (m) ->
             assert.equal m.metadata?.TransactionResult, 'tesSUCCESS'
             affected = m.metadata.AffectedNodes
-            ripple_state = affected[1].ModifiedNode
-            final = ripple_state.FinalFields
+            divvy_state = affected[1].ModifiedNode
+            final = divvy_state.FinalFields
             assert.equal h.alias_for(final.HighLimit.issuer), 'G1'
-            assert !(final.Flags & Flags.sle.RippleState.LowFreeze)
-            assert (final.Flags & Flags.sle.RippleState.HighFreeze)
+            assert !(final.Flags & Flags.sle.DivvyState.LowFreeze)
+            assert (final.Flags & Flags.sle.DivvyState.HighFreeze)
 
             done()
 
@@ -820,17 +820,17 @@ execute_if_enabled (suite, enforced) ->
       suite 'will be removed by OfferCreate with tesSUCCESS', ->
         test_if enforced, 'freeze the new offer', (done) ->
           tx = remote.transaction()
-          tx.ripple_line_set('G1', '0/USD/A4')
+          tx.divvy_line_set('G1', '0/USD/A4')
           tx.set_flags('SetFreeze')
 
           submit_for_final tx, (m) ->
             assert.equal m.metadata?.TransactionResult, 'tesSUCCESS'
             affected = m.metadata.AffectedNodes
-            ripple_state = affected[0].ModifiedNode
-            final = ripple_state.FinalFields
+            divvy_state = affected[0].ModifiedNode
+            final = divvy_state.FinalFields
             assert.equal h.alias_for(final.LowLimit.issuer), 'G1'
-            assert (final.Flags & Flags.sle.RippleState.LowFreeze)
-            assert !(final.Flags & Flags.sle.RippleState.HighFreeze)
+            assert (final.Flags & Flags.sle.DivvyState.LowFreeze)
+            assert !(final.Flags & Flags.sle.DivvyState.HighFreeze)
 
             done()
 

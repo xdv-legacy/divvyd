@@ -1,5 +1,5 @@
 /**
-   This is a sample ripple npm integration test intended to be copied as a basis
+   This is a sample divvy npm integration test intended to be copied as a basis
    for new npm tests.
 */
 
@@ -9,12 +9,12 @@ var testutils   = require('./testutils');
 var config      = testutils.init_config();
 
 // Delete any of these next variables that aren't used in the test.
-var Account     = require('ripple-lib').UInt160;
-var Amount      = require('ripple-lib').Amount;
-var Currency    = require('ripple-lib').UInt160;
-var Remote      = require('ripple-lib').Remote;
+var Account     = require('divvy-lib').UInt160;
+var Amount      = require('divvy-lib').Amount;
+var Currency    = require('divvy-lib').UInt160;
+var Remote      = require('divvy-lib').Remote;
 var Server      = require('./server').Server;
-var Transaction = require('ripple-lib').Transaction;
+var Transaction = require('divvy-lib').Transaction;
 var assert      = require('assert');
 var extend      = require('extend');
 var fs          = require('fs');

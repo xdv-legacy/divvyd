@@ -30,7 +30,7 @@ Sample output:
 
 The first value is the master public key. Add the public key to the config
 for this validator. A one-word comment must be added after the key (for example
-*ThisServersName*). Any other rippled trusting the validator needs to add the
+*ThisServersName*). Any other divvyd trusting the validator needs to add the
 master public key to its config. Only add keys received from trusted sources.
 
 The second value is the corresponding master secret key. **DO NOT INSTALL THIS
@@ -41,16 +41,16 @@ location.
 ## Validation Keys
 
 When first setting up a validator, or when changing the ephemeral keys, use the
-`rippled` program to create a new ephemeral key pair:
+`divvyd` program to create a new ephemeral key pair:
 
 ```
-  $ rippled validation_create
+  $ divvyd validation_create
 ```
 
 Sample output:
 
 ```
-  Loading: "/Users/alice/.config/ripple/rippled.cfg"
+  Loading: "/Users/alice/.config/divvy/divvyd.cfg"
   Securely connecting to 127.0.0.1:5005
   {
      "result" : {

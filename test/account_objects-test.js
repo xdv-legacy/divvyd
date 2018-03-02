@@ -4,9 +4,9 @@ var async        = require('async');
 var assert       = require('assert-diff');
 var lodash       = require('lodash');
 
-var Remote       = require('ripple-lib').Remote;
-var Request      = require('ripple-lib').Request;
-var Account      = require('ripple-lib').UInt160;
+var Remote       = require('divvy-lib').Remote;
+var Request      = require('divvy-lib').Request;
+var Account      = require('divvy-lib').UInt160;
 var testutils    = require('./testutils');
 var LedgerState  = require('./ledger-state').LedgerState;
 
@@ -47,7 +47,7 @@ suite('account_objects', function() {
       G1 : {balance: ["1000.0"]},
       G2 : {balance: ["1000.0"]},
 
-      // Bob has two RippleState and two Offer account objects.
+      // Bob has two DivvyState and two Offer account objects.
       bob : {
         balance: ["1000.0", "1000/USD/G1",
                             "1000/USD/G2"],
@@ -107,7 +107,7 @@ suite('account_objects', function() {
         "value": "1000"
       },
       "HighNode": "0000000000000000",
-      "LedgerEntryType": "RippleState",
+      "LedgerEntryType": "DivvyState",
       "LowLimit": {
         "currency": "USD",
         "issuer": "r32rQHyesiTtdWFU7UJVtff4nCR5SHCbJW",
@@ -130,7 +130,7 @@ suite('account_objects', function() {
         "value": "1000"
       },
       "HighNode": "0000000000000000",
-      "LedgerEntryType": "RippleState",
+      "LedgerEntryType": "DivvyState",
       "LowLimit": {
         "currency": "USD",
         "issuer": "r9cZvwKU3zzuZK9JFovGg1JC5n7QiqNL8L",
@@ -186,40 +186,40 @@ suite('account_objects', function() {
     var objects_stepped = [];
 
     var steps = [
-      function first_ripple_state(next) {
+      function first_divvy_state(next) {
         request_account_objects('bob', {limit: 1}, function(e, m) {
           assert.ifError(e);
 
           var objects = m.account_objects;
-          var ripple_state = m.account_objects[0];
+          var divvy_state = m.account_objects[0];
 
           assert.equal(m.limit, 1);
           assert.equal(objects.length, 1);
-          assert.equal(ripple_state.LedgerEntryType, 'RippleState');
-          assert.equal(ripple_state.HighLimit.issuer, bob);
-          assert.equal(ripple_state.LowLimit.issuer, G1);
+          assert.equal(divvy_state.LedgerEntryType, 'DivvyState');
+          assert.equal(divvy_state.HighLimit.issuer, bob);
+          assert.equal(divvy_state.LowLimit.issuer, G1);
 
-          objects_stepped.push(ripple_state);
+          objects_stepped.push(divvy_state);
           next(null, m.marker);
         });
       },
 
-      function second_ripple_state(resume_marker, next) {
+      function second_divvy_state(resume_marker, next) {
         request_account_objects('bob', {limit: 1, marker: resume_marker},
                                                           function(e, m) {
           assert.ifError(e);
 
           var objects = m.account_objects;
-          var ripple_state = m.account_objects[0];
+          var divvy_state = m.account_objects[0];
 
 
           assert.equal(m.limit, 1);
           assert.equal(objects.length, 1);
-          assert.equal(ripple_state.LedgerEntryType, 'RippleState');
-          assert.equal(ripple_state.HighLimit.issuer, bob);
-          assert.equal(ripple_state.LowLimit.issuer, G2);
+          assert.equal(divvy_state.LedgerEntryType, 'DivvyState');
+          assert.equal(divvy_state.HighLimit.issuer, bob);
+          assert.equal(divvy_state.LowLimit.issuer, G2);
 
-          objects_stepped.push(ripple_state);
+          objects_stepped.push(divvy_state);
           next(null, m.marker);
         });
       },

@@ -1,9 +1,9 @@
 var async       = require("async");
 var assert      = require('assert');
 var lodash      = require('lodash');
-var Amount      = require("ripple-lib").Amount;
-var Remote      = require("ripple-lib").Remote;
-var Transaction = require("ripple-lib").Transaction;
+var Amount      = require("divvy-lib").Amount;
+var Remote      = require("divvy-lib").Remote;
+var Transaction = require("divvy-lib").Transaction;
 var Server      = require("./server").Server;
 var testutils   = require("./testutils");
 var config      = testutils.init_config();
@@ -11,7 +11,7 @@ var config      = testutils.init_config();
 suite('Ledger requests', function() {
   var $ = { };
 
-  // Array of the ledger output expected from rippled.
+  // Array of the ledger output expected from divvyd.
   // Indexes in this array represent (ledger_index - 1).
   var expectedledgers = [
     {
@@ -60,7 +60,7 @@ suite('Ledger requests', function() {
 
   // Indicates the ledger (as the index into
   // expectedLedgers above) that is expected
-  // from rippled when it is requested by name.
+  // from divvyd when it is requested by name.
   var expectedIndexByLedgerName = {
     "validated": 1,
     "closed": 1,

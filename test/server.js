@@ -64,10 +64,10 @@ Server.prototype.serverPath = function() {
 };
 
 Server.prototype.configPath = function() {
-  return path.join(this.serverPath(), "rippled.cfg");
+  return path.join(this.serverPath(), "divvyd.cfg");
 };
 
-// Write a server's rippled.cfg.
+// Write a server's divvyd.cfg.
 Server.prototype._writeConfig = function(done) {
   var self  = this;
 
@@ -87,16 +87,16 @@ Server.prototype.set_ledger_file = function(fn) {
 Server.prototype._serverSpawnSync = function() {
   var self  = this;
 
-  var rippledpath = this.config.rippled_path;
-  assert(rippledpath, "rippled_path not provided");
+  var divvydpath = this.config.divvyd_path;
+  assert(divvydpath, "divvyd_path not provided");
 
   var args  = [
     "-a",
     "-v",
-    "--conf=rippled.cfg"
+    "--conf=divvyd.cfg"
   ];
-  if (this.config.rippled_args) {
-    args = this.config.rippled_args.concat(args);
+  if (this.config.divvyd_args) {
+    args = this.config.divvyd_args.concat(args);
   };
 
   if (this.ledger_file != null) {
@@ -110,12 +110,12 @@ Server.prototype._serverSpawnSync = function() {
   };
 
   // Spawn in standalone mode for now.
-  this.child = child.spawn(rippledpath, args, options);
+  this.child = child.spawn(divvydpath, args, options);
 
   if (!this.quiet)
     console.log("server: start %s: %s --conf=%s",
                 this.child.pid,
-                rippledpath,
+                divvydpath,
                 args.join(" "),
                 this.configPath());
 
@@ -131,7 +131,7 @@ Server.prototype._serverSpawnSync = function() {
 
     // Dump server logs on an abnormal exit
     if (self.quiet && (!self.stopping)) {
-      process.stderr.write("rippled stderr:\n");
+      process.stderr.write("divvyd stderr:\n");
       for (var i = 0; i < stderr.length; i++) {
         process.stderr.write(stderr[i]);
       };

@@ -4,7 +4,7 @@
 
 Documentation for installation of dependencies and running these
 tests can be found with the
-[_Rippled build instructions_][unit_testing].
+[_Divvyd build instructions_][unit_testing].
 (Also for [_Windows_][windows_unit_testing],
 [_OS X_][osx_unit_testing],
 or [_Ubuntu_][ubuntu_unit_testing].)
@@ -13,13 +13,13 @@ or [_Ubuntu_][ubuntu_unit_testing].)
 
 These instructions assume familiarity with the instructions linked above.
 
-### Debugging rippled
+### Debugging divvyd
 
-By default, each test will start and stop an independent instance of `rippled`.
+By default, each test will start and stop an independent instance of `divvyd`.
 This ensures that each test is run against the known
 [_genesis ledger_][genesis_ledger].
 
-To use a running `rippled`, particularly one running in a debugger, follow
+To use a running `divvyd`, particularly one running in a debugger, follow
 these steps:
 
 #### Setup
@@ -32,24 +32,24 @@ these steps:
   * Change the existing default server to: `exports.server_default = "debug";`
   (near the top of the file).
 
-3. Create a `rippled.cfg` file for the tests.
+3. Create a `divvyd.cfg` file for the tests.
   1. Run `npm test`. The tests will fail. **This failure is expected.**
-  2. Copy and/or rename the `tmp/server/debug/rippled.cfg` file to somewhere
+  2. Copy and/or rename the `tmp/server/debug/divvyd.cfg` file to somewhere
   convenient.
 
 ##### Using the command line
 
-1. Create a `rippled.cfg` file for the tests.
+1. Create a `divvyd.cfg` file for the tests.
   1. Run `npm test --noserver`. The tests will fail. **This failure is expected.**
-  2. Copy and/or rename the `tmp/server/alpha/rippled.cfg` file to somewhere
+  2. Copy and/or rename the `tmp/server/alpha/divvyd.cfg` file to somewhere
   convenient.
 
 #### Running the tests.
 
-1. Start `rippled` (in a debugger) with command line options
-`-av --conf <rippled-created-above.cfg>`.
+1. Start `divvyd` (in a debugger) with command line options
+`-av --conf <divvyd-created-above.cfg>`.
 
-2. Set any desired breakpoints in the `rippled` source.
+2. Set any desired breakpoints in the `divvyd` source.
 
 3. Running one test per [_genesis ledger_][genesis_ledger] is highly recommended.
 If the relevant `.js` file contains more than one test, change `test(` to
@@ -68,10 +68,10 @@ be problems with timeouts or reused ledgers).
 5. To run multiple tests (not recommended), put a breakpoint in the following function:
   * File `testutils.js` -> function `build_teardown()` -> nested function
   `teardown()` -> nested series function `stop_server()`.
-    * When this breakpoint is hit, stop and restart `rippled`.
+    * When this breakpoint is hit, stop and restart `divvyd`.
 
 6. Use the [_node-inspector UI_][node_inspector_ui] to step through and run
-the test(s) until control is handed off to `rippled`. When the request is
+the test(s) until control is handed off to `divvyd`. When the request is
 finished control will be handed back to node-inspector, which may or may not
 stop depending on which breakpoints are set.
 
@@ -83,10 +83,10 @@ With the command line `--noserver` flag, this step is unnecessary.
 default server back to its original value: `exports.server_default = "alpha";`.
   * Alternately, delete `test/config.js`.
 
-[unit_testing]: https://wiki.ripple.com/Rippled_build_instructions#Unit_testing
-[windows_unit_testing]: https://wiki.ripple.com/Visual_Studio_2013_Build_Instructions#Unit_Tests_.28Recommended.29
-[osx_unit_testing]: https://wiki.ripple.com/OSX_Build_Instructions#System_Tests_.28Recommended.29
-[ubuntu_unit_testing]: https://wiki.ripple.com/Ubuntu_build_instructions#System_Tests_.28Recommended.29
-[genesis_ledger]: https://wiki.ripple.com/Genesis_ledger
-[node_inspector]: https://wiki.ripple.com/Rippled_build_instructions#node-inspector
+[unit_testing]: https://wiki.xdv.io/Divvyd_build_instructions#Unit_testing
+[windows_unit_testing]: https://wiki.xdv.io/Visual_Studio_2013_Build_Instructions#Unit_Tests_.28Recommended.29
+[osx_unit_testing]: https://wiki.xdv.io/OSX_Build_Instructions#System_Tests_.28Recommended.29
+[ubuntu_unit_testing]: https://wiki.xdv.io/Ubuntu_build_instructions#System_Tests_.28Recommended.29
+[genesis_ledger]: https://wiki.xdv.io/Genesis_ledger
+[node_inspector]: https://wiki.xdv.io/Divvyd_build_instructions#node-inspector
 [node_inspector_ui]: https://github.com/node-inspector/node-inspector/blob/master/README.md

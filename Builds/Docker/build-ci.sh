@@ -1,13 +1,13 @@
 set -e
 
 mkdir -p build/docker/
-cp doc/rippled-example.cfg build/clang.debug/rippled build/docker/
+cp doc/divvyd-example.cfg build/clang.debug/divvyd build/docker/
 cp Builds/Docker/Dockerfile-testnet build/docker/Dockerfile
-mv build/docker/rippled-example.cfg build/docker/rippled.cfg
-strip build/docker/rippled
-docker build -t ripple/rippled:$CIRCLE_SHA1 build/docker/
-docker tag ripple/rippled:$CIRCLE_SHA1 ripple/rippled:latest
+mv build/docker/divvyd-example.cfg build/docker/divvyd.cfg
+strip build/docker/divvyd
+docker build -t divvy/divvyd:$CIRCLE_SHA1 build/docker/
+docker tag divvy/divvyd:$CIRCLE_SHA1 divvy/divvyd:latest
 
 if [ -z "$CIRCLE_PR_NUMBER" ]; then
-  docker tag ripple/rippled:$CIRCLE_SHA1 ripple/rippled:$CIRCLE_BRANCH
+  docker tag divvy/divvyd:$CIRCLE_SHA1 divvy/divvyd:$CIRCLE_BRANCH
 fi

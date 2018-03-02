@@ -3,7 +3,7 @@ var assert       = require('assert');
 var http         = require("http");
 var jsonrpc      = require("simple-jsonrpc");
 var EventEmitter = require('events').EventEmitter;
-var Remote       = require("ripple-lib").Remote;
+var Remote       = require("divvy-lib").Remote;
 var testutils    = require("./testutils");
 var config       = testutils.init_config();
 
@@ -70,8 +70,8 @@ suite('JSON-RPC', function() {
   });
 
   test('server info', function(done) {
-    var rippled_config = testutils.get_server_config(config);
-    var client  = jsonrpc.client("http://" + rippled_config.rpc_ip + ":" + rippled_config.rpc_port);
+    var divvyd_config = testutils.get_server_config(config);
+    var client  = jsonrpc.client("http://" + divvyd_config.rpc_ip + ":" + divvyd_config.rpc_port);
 
     client.call('server_info', [ ], function (result) {
       // console.log(JSON.stringify(result, undefined, 2));
@@ -82,8 +82,8 @@ suite('JSON-RPC', function() {
   });
 
   test('subscribe server', function(done) {
-    var rippled_config = testutils.get_server_config(config);
-    var client         = jsonrpc.client("http://" + rippled_config.rpc_ip + ":" + rippled_config.rpc_port);
+    var divvyd_config = testutils.get_server_config(config);
+    var client         = jsonrpc.client("http://" + divvyd_config.rpc_ip + ":" + divvyd_config.rpc_port);
     var http_config    = config.http_servers["zed"];
 
     client.call('subscribe', [{
@@ -100,8 +100,8 @@ suite('JSON-RPC', function() {
   test('subscribe ledger', function(done) {
     var self = this;
 
-    var rippled_config = testutils.get_server_config(config);
-    var client         = jsonrpc.client("http://" + rippled_config.rpc_ip + ":" + rippled_config.rpc_port);
+    var divvyd_config = testutils.get_server_config(config);
+    var client         = jsonrpc.client("http://" + divvyd_config.rpc_ip + ":" + divvyd_config.rpc_port);
     var http_config    = config.http_servers["zed"];
 
     var steps = [

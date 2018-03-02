@@ -47,8 +47,8 @@ script:
   # $CC will be either `clang` or `gcc` (If only we could do -j12 ;)
   - scons $CC.$TARGET
   # We can be sure we're using the build/$CC.$TARGET variant (-f so never err)
-  - rm -f build/rippled 
-  - export RIPPLED_PATH="$PWD/build/$CC.$TARGET/rippled"
+  - rm -f build/divvyd 
+  - export RIPPLED_PATH="$PWD/build/$CC.$TARGET/divvyd"
   # See what we've actually built
   - ldd $RIPPLED_PATH
   # Run unittests (under gdb)
@@ -59,9 +59,9 @@ script:
     # gdb --help
   - cat script.gdb | gdb --ex 'set print thread-events off' --return-child-result --args $RIPPLED_PATH --unittest
   - npm install
-  # Use build/(gcc|clang).$TARGET/rippled
+  # Use build/(gcc|clang).$TARGET/divvyd
   - |
-    echo "exports.default_server_config = {\"rippled_path\" : \"$RIPPLED_PATH\"};" > test/config.js
+    echo "exports.default_server_config = {\"divvyd_path\" : \"$RIPPLED_PATH\"};" > test/config.js
 
   # Run integration tests
   - npm test
@@ -70,4 +70,4 @@ notifications:
     false
   irc:
     channels:
-      - "chat.freenode.net#ripple-dev"
+      - "chat.freenode.net#divvy-dev"

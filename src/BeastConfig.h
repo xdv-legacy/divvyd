@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of divvyd: https://github.com/xdv/divvyd
     Copyright (c) 2012, 2013 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -106,7 +106,7 @@
 
 //------------------------------------------------------------------------------
 //
-// Ripple
+// Divvy
 //
 //------------------------------------------------------------------------------
 
@@ -129,11 +129,11 @@
 //------------------------------------------------------------------------------
 
 // These control whether or not certain functionality gets
-// compiled into the resulting rippled executable
+// compiled into the resulting divvyd executable
 
 /** Config: RIPPLE_ROCKSDB_AVAILABLE
     Controls whether or not the RocksDB database back-end is compiled into
-    rippled. RocksDB requires a relatively modern C++ compiler (tested with
+    divvyd. RocksDB requires a relatively modern C++ compiler (tested with
     gcc versions 4.8.1 and later) that supports some C++11 features.
 */
 #ifndef   RIPPLE_ROCKSDB_AVAILABLE

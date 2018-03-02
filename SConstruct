@@ -1,4 +1,4 @@
-# rippled SConstruct
+# divvyd SConstruct
 #
 '''
 
@@ -6,7 +6,7 @@
     ----------------------------------------------------------------------------
 
     <none>          Same as 'install'
-    install         Default target and copies it to build/rippled (default)
+    install         Default target and copies it to build/divvyd (default)
 
     all             All available variants
     debug           All available debug variants
@@ -88,7 +88,7 @@ import time
 import SCons.Action
 
 sys.path.append(os.path.join('src', 'beast', 'site_scons'))
-sys.path.append(os.path.join('src', 'ripple', 'site_scons'))
+sys.path.append(os.path.join('src', 'divvy', 'site_scons'))
 
 import Beast
 import scons_to_ninja
@@ -106,8 +106,8 @@ CHECK_COMMAND = 'openssl version -a'
 CHECK_LINE = 'built on: '
 BUILD_TIME = 'Mon Apr  7 20:33:19 UTC 2014'
 OPENSSL_ERROR = ('Your openSSL was built on %s; '
-                 'rippled needs a version built on or after %s.')
-UNITY_BUILD_DIRECTORY = 'src/ripple/unity/'
+                 'divvyd needs a version built on or after %s.')
+UNITY_BUILD_DIRECTORY = 'src/divvy/unity/'
 
 def check_openssl():
     if Beast.system.platform in CHECK_PLATFORMS:
@@ -586,7 +586,7 @@ default_variant = 'release'
 default_target = None
 
 for source in [
-    'src/ripple/proto/ripple.proto',
+    'src/divvy/proto/divvy.proto',
     ]:
     base.Protoc([],
         source,
@@ -636,11 +636,11 @@ def get_soci_sources(style):
         'src/soci/src/core',
         'src/sqlite', ]
     append_sources(result,
-                   'src/ripple/unity/soci.cpp',
+                   'src/divvy/unity/soci.cpp',
                    CPPPATH=cpp_path)
     if style == 'unity':
         append_sources(result,
-                       'src/ripple/unity/soci_ripple.cpp',
+                       'src/divvy/unity/soci_divvy.cpp',
                        CPPPATH=cpp_path)
     return result
 
@@ -649,25 +649,25 @@ def get_classic_sources():
     result = []
     append_sources(
         result,
-        *list_sources('src/ripple/core', '.cpp'),
+        *list_sources('src/divvy/core', '.cpp'),
         CPPPATH=[
             'src/soci/src/core',
             'src/sqlite']
     )
-    append_sources(result, *list_sources('src/ripple/app', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/basics', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/crypto', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/json', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/legacy', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/net', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/overlay', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/peerfinder', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/protocol', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/shamap', '.cpp'))
-    append_sources(result, *list_sources('src/ripple/test', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/app', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/basics', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/crypto', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/json', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/legacy', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/net', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/overlay', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/peerfinder', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/protocol', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/shamap', '.cpp'))
+    append_sources(result, *list_sources('src/divvy/test', '.cpp'))
     append_sources(
         result,
-        *list_sources('src/ripple/nodestore', '.cpp'),
+        *list_sources('src/divvy/nodestore', '.cpp'),
         CPPPATH=[
             'src/rocksdb2/include',
             'src/snappy/snappy',
@@ -682,28 +682,28 @@ def get_unity_sources():
     result = []
     append_sources(
         result,
-        'src/ripple/unity/app_ledger.cpp',
-        'src/ripple/unity/app_main.cpp',
-        'src/ripple/unity/app_misc.cpp',
-        'src/ripple/unity/app_paths.cpp',
-        'src/ripple/unity/app_tx.cpp',
-        'src/ripple/unity/core.cpp',
-        'src/ripple/unity/basics.cpp',
-        'src/ripple/unity/crypto.cpp',
-        'src/ripple/unity/net.cpp',
-        'src/ripple/unity/overlay.cpp',
-        'src/ripple/unity/peerfinder.cpp',
-        'src/ripple/unity/json.cpp',
-        'src/ripple/unity/protocol.cpp',
-        'src/ripple/unity/shamap.cpp',
-        'src/ripple/unity/test.cpp',
+        'src/divvy/unity/app_ledger.cpp',
+        'src/divvy/unity/app_main.cpp',
+        'src/divvy/unity/app_misc.cpp',
+        'src/divvy/unity/app_paths.cpp',
+        'src/divvy/unity/app_tx.cpp',
+        'src/divvy/unity/core.cpp',
+        'src/divvy/unity/basics.cpp',
+        'src/divvy/unity/crypto.cpp',
+        'src/divvy/unity/net.cpp',
+        'src/divvy/unity/overlay.cpp',
+        'src/divvy/unity/peerfinder.cpp',
+        'src/divvy/unity/json.cpp',
+        'src/divvy/unity/protocol.cpp',
+        'src/divvy/unity/shamap.cpp',
+        'src/divvy/unity/test.cpp',
     )
 
     result += get_soci_sources('unity')
 
     append_sources(
         result,
-        'src/ripple/unity/nodestore.cpp',
+        'src/divvy/unity/nodestore.cpp',
         CPPPATH=[
             'src/rocksdb2/include',
             'src/snappy/snappy',
@@ -812,24 +812,24 @@ for tu_style in ['classic', 'unity']:
                                       {'GIT_COMMIT_ID' : '\'"%s"\'' % id }}
 
             object_builder.add_source_files(
-                'src/ripple/unity/git_id.cpp',
+                'src/divvy/unity/git_id.cpp',
                 **git_commit_tag)
 
             object_builder.add_source_files(
                 'src/beast/beast/unity/hash_unity.cpp',
-                'src/ripple/unity/beast.cpp',
-                'src/ripple/unity/lz4.c',
-                'src/ripple/unity/protobuf.cpp',
-                'src/ripple/unity/ripple.proto.cpp',
-                'src/ripple/unity/resource.cpp',
-                'src/ripple/unity/rpcx.cpp',
-                'src/ripple/unity/server.cpp',
-                'src/ripple/unity/validators.cpp',
-                'src/ripple/unity/websocket02.cpp'
+                'src/divvy/unity/beast.cpp',
+                'src/divvy/unity/lz4.c',
+                'src/divvy/unity/protobuf.cpp',
+                'src/divvy/unity/divvy.proto.cpp',
+                'src/divvy/unity/resource.cpp',
+                'src/divvy/unity/rpcx.cpp',
+                'src/divvy/unity/server.cpp',
+                'src/divvy/unity/validators.cpp',
+                'src/divvy/unity/websocket02.cpp'
             )
 
             object_builder.add_source_files(
-                'src/ripple/unity/beastc.c',
+                'src/divvy/unity/beastc.c',
                 CCFLAGS = ([] if toolchain == 'msvc' else ['-Wno-array-bounds']))
 
             if 'gcc' in toolchain:
@@ -838,14 +838,14 @@ for tu_style in ['classic', 'unity']:
                 no_uninitialized_warning = {}
 
             object_builder.add_source_files(
-                'src/ripple/unity/ed25519.c',
+                'src/divvy/unity/ed25519.c',
                 CPPPATH=[
                     'src/ed25519-donna',
                 ]
             )
 
             object_builder.add_source_files(
-                'src/ripple/unity/rocksdb.cpp',
+                'src/divvy/unity/rocksdb.cpp',
                 CPPPATH=[
                     'src/rocksdb2',
                     'src/rocksdb2/include',
@@ -856,7 +856,7 @@ for tu_style in ['classic', 'unity']:
             )
 
             object_builder.add_source_files(
-                'src/ripple/unity/snappy.cpp',
+                'src/divvy/unity/snappy.cpp',
                 CCFLAGS=([] if toolchain == 'msvc' else ['-Wno-unused-function']),
                 CPPPATH=[
                     'src/snappy/snappy',
@@ -865,15 +865,15 @@ for tu_style in ['classic', 'unity']:
             )
 
             object_builder.add_source_files(
-                'src/ripple/unity/websocket04.cpp',
+                'src/divvy/unity/websocket04.cpp',
                 CPPPATH='src/websocketpp',
             )
 
             if toolchain == "clang" and Beast.system.osx:
-                object_builder.add_source_files('src/ripple/unity/beastobjc.mm')
+                object_builder.add_source_files('src/divvy/unity/beastobjc.mm')
 
             target = env.Program(
-                target=os.path.join(variant_dir, 'rippled'),
+                target=os.path.join(variant_dir, 'divvyd'),
                 source=object_builder.objects
                 )
 
@@ -910,7 +910,7 @@ for key, value in aliases.iteritems():
     env.Alias(key, value)
 
 vcxproj = base.VSProject(
-    os.path.join('Builds', 'VisualStudio2013', 'RippleD'),
+    os.path.join('Builds', 'VisualStudio2013', 'DivvyD'),
     source = [],
     VSPROJECT_ROOT_DIRS = ['src/beast', 'src', '.'],
     VSPROJECT_CONFIGS = msvc_configs)
@@ -925,7 +925,7 @@ def PhonyTargets(env = None, **kw):
     for target, action in kw.items():
         env.AlwaysBuild(env.Alias(target, [], action))
 
-# Build the list of rippled source files that hold unit tests
+# Build the list of divvyd source files that hold unit tests
 def do_count(target, source, env):
     def list_testfiles(base, suffixes):
         def _iter(base):
@@ -937,7 +937,7 @@ def do_count(target, source, env):
                         if r[0].endswith('.test'):
                             yield os.path.normpath(path)
         return list(_iter(base))
-    testfiles = list_testfiles(os.path.join('src', 'ripple'), env.get('CPPSUFFIXES'))
+    testfiles = list_testfiles(os.path.join('src', 'divvy'), env.get('CPPSUFFIXES'))
     lines = 0
     for f in testfiles:
         lines = lines + sum(1 for line in open(f))

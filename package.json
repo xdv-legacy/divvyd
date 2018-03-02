@@ -1,7 +1,7 @@
 {
-  "name": "rippled",
+  "name": "divvyd",
   "version": "0.0.1",
-  "description": "Rippled Server",
+  "description": "Divvyd Server",
   "private": true,
   "directories": {
     "test": "test"
@@ -12,7 +12,7 @@
     "extend": "~1.2.0",
     "lodash": "^3.5.0",
     "request": "^2.47.0",
-    "ripple-lib": "0.10.0",
+    "divvy-lib": "0.10.0",
     "simple-jsonrpc": "~0.0.2"
   },
   "devDependencies": {
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ripple/rippled.git"
+    "url": "git://github.com/xdv/divvyd.git"
   },
   "readmeFilename": "README.md"
 }

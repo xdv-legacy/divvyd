@@ -1,5 +1,5 @@
 FROM ubuntu
-MAINTAINER Torrie Fischer <torrie@ripple.com>
+MAINTAINER Torrie Fischer <torrie@xdv.io>
 
 RUN apt-get update -qq &&\
     apt-get install -qq software-properties-common &&\
@@ -10,14 +10,14 @@ RUN apt-get update -qq &&\
 RUN apt-get purge -qq libboost1.48-dev &&\
     apt-get install -qq libprotobuf8 libboost1.57-all-dev
 
-RUN mkdir -p /srv/rippled/data
+RUN mkdir -p /srv/divvyd/data
 
-VOLUME /srv/rippled/data/
+VOLUME /srv/divvyd/data/
 
-ENTRYPOINT ["/srv/rippled/bin/rippled"]
-CMD ["--conf", "/srv/rippled/data/rippled.cfg"]
+ENTRYPOINT ["/srv/divvyd/bin/divvyd"]
+CMD ["--conf", "/srv/divvyd/data/divvyd.cfg"]
 EXPOSE 51235/udp
 EXPOSE 5005/tcp
 
-ADD ./rippled.cfg /srv/rippled/data/rippled.cfg
-ADD ./rippled /srv/rippled/bin/
+ADD ./divvyd.cfg /srv/divvyd/data/divvyd.cfg
+ADD ./divvyd /srv/divvyd/bin/

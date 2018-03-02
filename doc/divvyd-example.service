@@ -1,0 +1,10 @@
+[Unit]
+Description=Divvy Peer-to-Peer Network Daemon
+ 
+[Service]
+Type=simple
+User=nobody
+ExecStart=/usr/bin/divvyd --conf=/etc/divvyd/divvyd.cfg
+ 
+[Install]
+WantedBy=multi-user.target

@@ -29,7 +29,7 @@ exports.server_default  = "alpha";
 
 exports.default_server_config = {
   // Where to find the binary.
-  rippled_path: path.resolve(__dirname, "../build/rippled")
+  divvyd_path: path.resolve(__dirname, "../build/divvyd")
 };
 
 //
@@ -42,7 +42,7 @@ exports.servers = {
   // A local test server.
   "alpha" : {
 
-    // ripple-lib.Remote
+    // divvy-lib.Remote
     'local_fee' : true,
     'local_sequence' : true,
     'local_signing' : false,
@@ -57,7 +57,7 @@ exports.servers = {
     'rpc_ip' : "127.0.0.1",
     'rpc_port' : 5005,
 
-    // rippled.cfg
+    // divvyd.cfg
     'server' : lines('port_admin_http',
                      'port_admin_ws'),
 
@@ -76,7 +76,7 @@ exports.servers = {
   },
 
   'uniport_tests' : {
-    // rippled.cfg
+    // divvyd.cfg
     'node_db': lines('type=memory', 'path=integration'),
 
     // We let testutils.build_setup connect normally, and use the Remote to

@@ -20,7 +20,7 @@
 build
 tags
 TAGS
-bin/rippled
+bin/divvyd
 Debug/*.*
 Release/*.*
 
@@ -39,7 +39,7 @@ db/*.db-*
 debug_log.txt
 
 # Ignore customized configs
-rippled.cfg
+divvyd.cfg
 validators.txt
 test/config.js
 
@@ -66,7 +66,7 @@ DerivedData
 *.hmap
 
 # Intel Parallel Studio 2013 XE
-My Amplifier XE Results - RippleD
+My Amplifier XE Results - DivvyD
 
 # KeyvaDB files
 *.key
@@ -76,7 +76,7 @@ My Amplifier XE Results - RippleD
 /out.txt
 
 # Build Log
-rippled-build.log
+divvyd-build.log
 
 # Profiling data
 gmon.out

@@ -1,17 +1,17 @@
 # Maintainer: Roberto Catini <roberto.catini@gmail.com>
 
-pkgname=rippled
+pkgname=divvyd
 pkgrel=1
 pkgver=0
-pkgdesc="Ripple peer-to-peer network daemon"
+pkgdesc="Divvy peer-to-peer network daemon"
 arch=('i686' 'x86_64')
-url="https://github.com/ripple/rippled"
+url="https://github.com/xdv/divvyd"
 license=('custom:ISC')
 depends=('protobuf' 'openssl' 'boost-libs')
 makedepends=('git' 'scons' 'boost')
 checkdepends=('nodejs')
-backup=("etc/$pkgname/rippled.cfg")
-source=("git://github.com/ripple/rippled.git#branch=master")
+backup=("etc/$pkgname/divvyd.cfg")
+source=("git://github.com/xdv/divvyd.git#branch=master")
 sha512sums=('SKIP')
 
 pkgver() {
@@ -28,14 +28,14 @@ check() {
 	cd "$srcdir/$pkgname"
 	npm install
 	npm test
-	build/rippled --unittest
+	build/divvyd --unittest
 }
 
 package() {
 	cd "$srcdir/$pkgname"
 	install -D -m644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-	install -D build/rippled "$pkgdir/usr/bin/rippled"
-	install -D -m644 doc/rippled-example.cfg "$pkgdir/etc/$pkgname/rippled.cfg"
+	install -D build/divvyd "$pkgdir/usr/bin/divvyd"
+	install -D -m644 doc/divvyd-example.cfg "$pkgdir/etc/$pkgname/divvyd.cfg"
 	mkdir -p "$pkgdir/var/lib/$pkgname/db"
 	mkdir -p "$pkgdir/var/log/$pkgname"
 }

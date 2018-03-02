@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#    This file is part of rippled: https://github.com/ripple/rippled
+#    This file is part of divvyd: https://github.com/xdv/divvyd
 #    Copyright (c) 2012 - 2015 Ripple Labs Inc.
 #
 #    Permission to use, copy, modify, and/or distribute this software for any
@@ -43,15 +43,15 @@ import sys
 IS_WINDOWS = platform.system().lower() == 'windows'
 
 if IS_WINDOWS:
-    BINARY_RE = re.compile(r'build\\([^\\]+)\\rippled.exe')
+    BINARY_RE = re.compile(r'build\\([^\\]+)\\divvyd.exe')
 
 else:
-    BINARY_RE = re.compile(r'build/([^/]+)/rippled')
+    BINARY_RE = re.compile(r'build/([^/]+)/divvyd')
 
 ALL_TARGETS = ['debug', 'release']
 
 parser = argparse.ArgumentParser(
-    description='Test.py - run ripple tests'
+    description='Test.py - run divvy tests'
 )
 
 parser.add_argument(
@@ -164,7 +164,7 @@ if __name__ == '__main__':
             ARGS.verbose and print(*lines, sep='')
 
             print('npm tests for', target)
-            resultcode, lines = shell('npm', 'test', '--rippled=' + executable)
+            resultcode, lines = shell('npm', 'test', '--divvyd=' + executable)
             if resultcode:
                 print('ERROR:\n', *lines, sep='')
                 failed.append([target, 'npm'])

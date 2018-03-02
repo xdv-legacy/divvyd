@@ -1,4 +1,4 @@
-# rippled
+# divvyd
 
 # use the ubuntu base image
 FROM ubuntu
@@ -12,19 +12,19 @@ RUN apt-get -y upgrade
 RUN apt-get -y install git scons pkg-config protobuf-compiler libprotobuf-dev libssl-dev libboost1.55-all-dev
 
 # download source code from official repository
-RUN git clone https://github.com/ripple/rippled.git src; cd src/; git checkout master
+RUN git clone https://github.com/xdv/divvyd.git src; cd src/; git checkout master
 
 # compile
-RUN cd src/; scons build/rippled
+RUN cd src/; scons build/divvyd
 
 # move to root directory and strip
-RUN cp src/build/rippled rippled; strip rippled
+RUN cp src/build/divvyd divvyd; strip divvyd
 
 # copy default config
-RUN cp src/doc/rippled-example.cfg rippled.cfg
+RUN cp src/doc/divvyd-example.cfg divvyd.cfg
 
 # clean source
 RUN rm -r src
 
-# launch rippled when launching the container
-ENTRYPOINT ./rippled
+# launch divvyd when launching the container
+ENTRYPOINT ./divvyd

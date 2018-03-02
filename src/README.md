@@ -2,18 +2,18 @@
 
 Some of these directories come from entire outside repositories brought in
 using git-subtree. This means that the source files are inserted directly
-into the rippled repository. They can be edited and committed just as if they
+into the divvyd repository. They can be edited and committed just as if they
 were normal files.
 
 However, if you create a commit that contains files both from a
-subtree, and from the ripple source tree please use care when designing
+subtree, and from the divvy source tree please use care when designing
 the commit message, since it will appear in the subtree's individual
 repository when the changes are pushed back to the upstream.
 
 When submitting pull request, make sure that any commits which include
 files from subtrees are isolated - i.e. do not mix files from subtrees
-and ripple in the same commit. This way, the commit message will make
-sense. We don't want to see "Fix pathfinding bug with XRP" appearing
+and divvy in the same commit. This way, the commit message will make
+sense. We don't want to see "Fix pathfinding bug with XDV" appearing
 in the LevelDB or Beast commit log, for example.
 
 About git-subtree:
@@ -46,65 +46,65 @@ master
 
 ## HyperLevelDB
 
-Ripple's fork of HyperLevelDB
+Divvy's fork of HyperLevelDB
 
 Repository <br>
 ```
-git@github.com:ripple/HyperLevelDB.git
+git@github.com:divvy/HyperLevelDB.git
 ```
 Branch
 ```
-ripple-fork
+divvy-fork
 ```
 
 ## LevelDB
 
-Ripple's fork of LevelDB.
+Divvy's fork of LevelDB.
 
 Repository <br>
 ```
-git@github.com:ripple/LevelDB.git
+git@github.com:divvy/LevelDB.git
 ```
 Branch
 ```
-ripple-fork
+divvy-fork
 ```
 
 ## LightningDB (a.k.a. MDB)
 
-Ripple's fork of MDB, a fast memory-mapped key value database system.
+Divvy's fork of MDB, a fast memory-mapped key value database system.
 
 Repository <br>
 ```
-git@github.com:ripple/LightningDB.git
+git@github.com:divvy/LightningDB.git
 ```
 Branch
 ```
-ripple-fork
+divvy-fork
 ```
 
 ## websocket
 
-Ripple's fork of websocketpp has some incompatible changes and Ripple specific includes.
+Divvy's fork of websocketpp has some incompatible changes and Divvy specific includes.
 
 Repository
 ```
-git@github.com:ripple/websocketpp.git
+git@github.com:divvy/websocketpp.git
 ```
 Branch
 ```
-ripple-fork
+divvy-fork
 ```
 
 ## protobuf
 
-Ripple's fork of protobuf. We've changed some names in order to support the
+Divvy's fork of protobuf. We've changed some names in order to support the
 unity-style of build (a single .cpp added to the project, instead of
 linking to a separately built static library).
 
 Repository
 ```
-git@github.com:ripple/protobuf.git
+git@github.com:divvy/protobuf.git
 ```
 Branch
 ```

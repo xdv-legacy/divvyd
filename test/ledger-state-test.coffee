@@ -55,8 +55,8 @@ describe 'LedgerVerifier', ->
     remote_dummy = {set_secret: (->)}
     lv = new LedgerVerifier(declaration, remote_dummy, config, assert)
 
-  it 'tracks xrp balances', ->
-    assert.equal lv.xrp_balances['bob'].to_json(), '100000000'
+  it 'tracks xdv balances', ->
+    assert.equal lv.xdv_balances['bob'].to_json(), '100000000'
 
   it 'tracks iou balances', ->
     assert.equal lv.iou_balances['bob']['USD/alice'].to_json().value, '200'
@@ -118,11 +118,11 @@ describe 'LedgerVerifier', ->
     assert.equal errors.bob.balance['USD/alice'].expected, '200'
     assert.equal errors.bob.balance['USD/alice'].actual, '201'
 
-    assert.equal errors.bob.balance['XRP'].expected, '100'
-    assert.equal errors.bob.balance['XRP'].actual, '999.99997'
+    assert.equal errors.bob.balance['XDV'].expected, '100'
+    assert.equal errors.bob.balance['XDV'].actual, '999.99997'
 
-    assert.equal errors.bob.offers[0].taker_pays.actual, '88/XRP'
-    assert.equal errors.bob.offers[0].taker_pays.expected, '89/XRP'
+    assert.equal errors.bob.offers[0].taker_pays.actual, '88/XDV'
+    assert.equal errors.bob.offers[0].taker_pays.expected, '89/XDV'
 
     # {"expected":["89.0","100/USD/alice"],"actual":"missing"}
     assert.equal errors.bob.offers[1].actual, 'missing'
@@ -130,7 +130,7 @@ describe 'LedgerVerifier', ->
     expected = {
       "bob": {
         "balance": {
-          "XRP": {
+          "XDV": {
             "actual": "999.99997",
             "expected": "100"
           },
@@ -142,8 +142,8 @@ describe 'LedgerVerifier', ->
         "offers": [
           {
             "taker_pays": {
-              "expected": "89/XRP",
-              "actual": "88/XRP"
+              "expected": "89/XDV",
+              "actual": "88/XDV"
             }
           },
           "missing"

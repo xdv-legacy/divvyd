@@ -1,6 +1,6 @@
 var async     = require('async');
 var assert    = require('assert');
-var Remote    = require('ripple-lib').Remote;
+var Remote    = require('divvy-lib').Remote;
 var testutils = require('./testutils');
 var config    = testutils.init_config();
 
@@ -201,16 +201,16 @@ suite('Account set', function() {
     });
   });
 
-  test('set DisallowXRP', function(done) {
+  test('set DisallowXDV', function(done) {
     var self = this;
 
     var steps = [
       function (callback) {
-        self.what = 'Set DisallowXRP.';
+        self.what = 'Set DisallowXDV.';
 
         $.remote.transaction()
         .account_set('root')
-        .set_flags('DisallowXRP')
+        .set_flags('DisallowXDV')
         .on('submitted', function (m) {
           //console.log('proposed: %s', JSON.stringify(m));
           callback(m.engine_result === 'tesSUCCESS' ? null : new Error(m));
@@ -219,12 +219,12 @@ suite('Account set', function() {
       },
 
       function (callback) {
-        self.what = 'Check DisallowXRP';
+        self.what = 'Check DisallowXDV';
 
         $.remote.request_account_flags('root', 'CURRENT')
         .on('error', callback)
         .on('success', function (m) {
-          var wrong = !(m.node.Flags & Remote.flags.account_root.DisallowXRP);
+          var wrong = !(m.node.Flags & Remote.flags.account_root.DisallowXDV);
 
           if (wrong) {
             console.log('Set RequireDestTag: failed: %s', JSON.stringify(m));
@@ -236,11 +236,11 @@ suite('Account set', function() {
       },
 
       function (callback) {
-        self.what = 'Clear DisallowXRP.';
+        self.what = 'Clear DisallowXDV.';
 
         $.remote.transaction()
         .account_set('root')
-        .set_flags('AllowXRP')
+        .set_flags('AllowXDV')
         .on('submitted', function (m) {
           //console.log('proposed: %s', JSON.stringify(m));
 
@@ -250,15 +250,15 @@ suite('Account set', function() {
       },
 
       function (callback) {
-        self.what = 'Check AllowXRP';
+        self.what = 'Check AllowXDV';
 
         $.remote.request_account_flags('root', 'CURRENT')
         .on('error', callback)
         .on('success', function (m) {
-          var wrong = !!(m.node.Flags & Remote.flags.account_root.DisallowXRP);
+          var wrong = !!(m.node.Flags & Remote.flags.account_root.DisallowXDV);
 
           if (wrong) {
-            console.log('Clear DisallowXRP: failed: %s', JSON.stringify(m));
+            console.log('Clear DisallowXDV: failed: %s', JSON.stringify(m));
           }
 
           callback(wrong ? new Error(m) : null);

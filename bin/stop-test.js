@@ -9,24 +9,24 @@ if (process.argv[2] == null) {
   [
    'Usage: ',
    '',
-   '  `node bin/stop-test.js i,j [rippled_path] [rippled_conf]`',
+   '  `node bin/stop-test.js i,j [divvyd_path] [divvyd_conf]`',
    '',
-   '  Launch rippled and stop it after n seconds for all n in [i, j}',
-   '  For all even values of n launch rippled with `--fg`',
-   '  For values of n where n % 3 == 0 launch rippled with `--fg`\n',
+   '  Launch divvyd and stop it after n seconds for all n in [i, j}',
+   '  For all even values of n launch divvyd with `--fg`',
+   '  For values of n where n % 3 == 0 launch divvyd with `--fg`\n',
    'Examples: ',
    '',
    '  $ node bin/stop-test.js 5,10',
    ('  $ node bin/stop-test.js 1,4 ' +
-      'build/clang.debug/rippled $HOME/.confs/rippled.cfg')
+      'build/clang.debug/divvyd $HOME/.confs/divvyd.cfg')
    ]
       .forEach(function(l){console.log(l)});
 
   process.exit();
 } else {
   var testRange = process.argv[2].split(',').map(Number);
-  var rippledPath = process.argv[3] || 'build/rippled'
-  var rippledConf = process.argv[4] || 'rippled.cfg'
+  var divvydPath = process.argv[3] || 'build/divvyd'
+  var divvydConf = process.argv[4] || 'divvyd.cfg'
 }
 
 var options = {
@@ -35,16 +35,16 @@ var options = {
 };
 
 // default args
-var conf_args = ['--conf='+rippledConf];
+var conf_args = ['--conf='+divvydConf];
 var start_args  = conf_args.concat([/*'--net'*/])
 var stop_args = conf_args.concat(['stop']);
 
 /* --------------------------------- HELPERS -------------------------------- */
 
 function start(args) {
-    return child.spawn(rippledPath, args, options);
+    return child.spawn(divvydPath, args, options);
 }
-function stop(rippled) { child.execFile(rippledPath, stop_args, options)}
+function stop(divvyd) { child.execFile(divvydPath, stop_args, options)}
 function secs_l8r(ms, f) {setTimeout(f, ms * 1000); }
 
 function show_results_and_exit(results) {
@@ -82,25 +82,25 @@ console.log("Test will take ~%s seconds", timeTakes(testRange));
   results.push(result);
 
   console.log("\nLaunching `%s` with `%s` for %d seconds",
-                rippledPath, JSON.stringify(args), n);
+                divvydPath, JSON.stringify(args), n);
 
-  rippled = start(args);
-  console.log("Rippled pid: %d", rippled.pid);
+  divvyd = start(args);
+  console.log("Divvyd pid: %d", divvyd.pid);
 
   // defaults
   var b4StopSent = false;
   var stopSent = false;
   var stop_took = null;
 
-  rippled.once('exit', function(){
+  divvyd.once('exit', function(){
     if (!stopSent && !b4StopSent) {
-      console.warn('\nRippled exited itself b4 stop issued');
+      console.warn('\nDivvyd exited itself b4 stop issued');
       process.exit();
     };
 
     // The io handles close AFTER exit, may have implications for
     // `stdio:'inherit'` option to `child.spawn`.
-    rippled.once('close', function() {
+    divvyd.once('close', function() {
       result.stop_took = (+new Date() - stop_took) / 1000; // seconds
       console.log("Stopping after %d seconds took %s seconds",
                    n, result.stop_took);
@@ -109,7 +109,7 @@ console.log("Test will take ~%s seconds", timeTakes(testRange));
   });
 
   secs_l8r(n, function(){
-    console.log("Stopping rippled after %d seconds", n);
+    console.log("Stopping divvyd after %d seconds", n);
 
     // possible race here ?
     // seems highly unlikely, but I was having issues at one point
@@ -124,7 +124,7 @@ console.log("Test will take ~%s seconds", timeTakes(testRange));
       // We wait 30 seconds, and if it hasn't stopped, we abort the process
       secs_l8r(30, function() {
         if (result.stop_took == null) {
-          console.log("rippled has stalled");
+          console.log("divvyd has stalled");
           process.exit();
         };
       });

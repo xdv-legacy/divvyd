@@ -45,7 +45,7 @@ public:
         auto const result = request (
             "GET / HTTP/1.1\r\n"
             //"Connection: Upgrade\r\n"
-            //"Upgrade: Ripple\r\n"
+            //"Upgrade: Divvy\r\n"
             "Field: \t Value \t \r\n"
             "Blib: Continu\r\n"
             "  ation\r\n"

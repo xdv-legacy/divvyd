@@ -1,9 +1,9 @@
 var async       = require('async');
 var assert      = require('assert');
-var ripple      = require('ripple-lib');
-var Amount      = require('ripple-lib').Amount;
-var Remote      = require('ripple-lib').Remote;
-var Transaction = require('ripple-lib').Transaction;
+var divvy      = require('divvy-lib');
+var Amount      = require('divvy-lib').Amount;
+var Remote      = require('divvy-lib').Remote;
+var Transaction = require('divvy-lib').Transaction;
 var Server      = require('./server').Server;
 var testutils   = require('./testutils');
 var config      = testutils.init_config();
@@ -59,7 +59,7 @@ make_suite('Robust transaction submission', function() {
         var tx = $.remote.transaction().payment({
           from: 'root',
           to: 'alice',
-          amount: Amount.from_human('1 XRP')
+          amount: Amount.from_human('1 XDV')
         });
 
         tx.once('submitted', function(m) {
@@ -84,7 +84,7 @@ make_suite('Robust transaction submission', function() {
         var tx = $.remote.transaction().payment({
           from:    'root',
           to:      'bob',
-          amount:  Amount.from_human('1 XRP')
+          amount:  Amount.from_human('1 XDV')
         });
 
         tx.on('submitted', function(m) {
@@ -165,7 +165,7 @@ make_suite('Robust transaction submission', function() {
         var tx = $.remote.transaction().payment({
           from: 'root',
           to: 'alice',
-          amount: Amount.from_human('1 XRP')
+          amount: Amount.from_human('1 XDV')
         });
 
         tx.submit();
@@ -245,7 +245,7 @@ make_suite('Robust transaction submission', function() {
         var tx = $.remote.transaction().payment({
           from: 'root',
           to: 'alice',
-          amount: Amount.from_human('1 XRP')
+          amount: Amount.from_human('1 XDV')
         });
 
         tx.once('submitted', function(m) {
@@ -338,7 +338,7 @@ make_suite('Robust transaction submission', function() {
         var tx = $.remote.transaction().payment({
           from: 'root',
           to: 'alice',
-          amount: Amount.from_human('1 XRP')
+          amount: Amount.from_human('1 XDV')
         });
 
         var timed_out = false;
@@ -379,7 +379,7 @@ make_suite('Robust transaction submission', function() {
     });
   });
 
-  // Subscribing to accounts_proposed will result in ripple-lib
+  // Subscribing to accounts_proposed will result in divvy-lib
   // being streamed non-validated (proposed) transactions
   //
   // This test ensures that only validated transactions will

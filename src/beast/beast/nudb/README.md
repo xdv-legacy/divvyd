@@ -1,6 +1,6 @@
 # NuDB: A Key/Value Store For Decentralized Systems
 
-The new breed of decentralized systems such as Ripple or Bitcoin
+The new breed of decentralized systems such as Divvy or Bitcoin
 that use embedded key/value databases place different demands on
 these database than what is traditional. NuDB provides highly
 optimized and concurrent atomic, durable, and isolated fetch and

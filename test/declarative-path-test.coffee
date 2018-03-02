@@ -12,7 +12,7 @@ deep_eq                    = require 'deep-equal'
  Transaction
  PathFind
  sjcl
- UInt160}                  = require 'ripple-lib'
+ UInt160}                  = require 'divvy-lib'
 
 testutils                  = require './testutils'
 {Server}                   = require './server'
@@ -63,8 +63,8 @@ The tests are written in a declarative style:
           ABC/M1|M1
             get `ABC/M1` through `M1`
 
-          XRP|$
-            get `XRP` through `$` 
+          XDV|$
+            get `XDV` through `$` 
                               $ signifies an order book rather than account
   
   ------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ expand_alternative = (alt) ->
       if not hop.currency?
         hop.currency = prev_currency
 
-      if not hop.issuer? and hop.currency != 'XRP'
+      if not hop.issuer? and hop.currency != 'XDV'
         if hop.account?
           hop.issuer = hop.account
         else
@@ -314,7 +314,7 @@ create_path_test = (pth) ->
     one_message = (f) ->
       self.remote._servers[0].once 'before_send_message_for_non_mutators', f
 
-    sent = "TODO: need to patch ripple-lib"
+    sent = "TODO: need to patch divvy-lib"
     one_message (m) -> sent = m
 
     error_info = (m, more) ->
@@ -333,7 +333,7 @@ create_path_test = (pth) ->
     _dst = UInt160.json_rewrite(pth.dst)
     _amt = Amount.from_json(pth.send)
 
-    # self.server.clear_logs() "TODO: need to patch ripple-lib"
+    # self.server.clear_logs() "TODO: need to patch divvy-lib"
     pf = self.remote.path_find(_src, _dst, _amt, [{currency: pth.via}])
 
     updates  = 0
@@ -365,7 +365,7 @@ create_path_test = (pth) ->
       #   testutils.ledger_close(self.remote, -> )
 
       if updates == 2
-        # "TODO: need to patch ripple-lib"
+        # "TODO: need to patch divvy-lib"
         # self.log_pre(self.server.get_logs(), "Server Logs")
 
         if pth.do_send?
@@ -467,7 +467,7 @@ extend path_finding_cases,
   "CNY test":
     paths_expected:
       BS:
-        P101: src: "SRC", dst: "GATEWAY_DST", send: "10.1/CNY/GATEWAY_DST", via: "XRP", n_alternatives: 1
+        P101: src: "SRC", dst: "GATEWAY_DST", send: "10.1/CNY/GATEWAY_DST", via: "XDV", n_alternatives: 1
 
     ledger:
       accounts:
@@ -615,7 +615,7 @@ extend path_finding_cases,
           trusts: ["2000/HKD/G2SW"]
         M1:
           # SnapSwap wants to be able to set trust line quality settings so they
-          # can charge a fee when transactions ripple across. Liquitidy
+          # can charge a fee when transactions divvy across. Liquitidy
           # provider, via trusting/holding both accounts
           balance: ["11000.0",
                    "1200/HKD/G1BS",
@@ -655,7 +655,7 @@ extend path_finding_cases,
             paths: [["HKD/M1|M1", "HKD/G1BS|G1BS"]]
           ]
     }
-  "Path Tests #4 (non-XRP to non-XRP, same currency)": {
+  "Path Tests #4 (non-XDV to non-XDV, same currency)": {
     ledger:
       accounts:
         G1: balance: ["1000.0"]
@@ -713,7 +713,7 @@ extend path_finding_cases,
             paths: [["HKD/M2|M2"],
                     ["HKD/M1|M1"],
                     ["HKD/G2|$"]
-                    ["XRP|$", "HKD/G2|$"]
+                    ["XDV|$", "HKD/G2|$"]
                   ]
           ]
 
@@ -727,12 +727,12 @@ extend path_finding_cases,
               ["HKD/G1|G1", "HKD/G2|$"],                                   # <--
               ["HKD/G1|G1", "HKD/M2|M2"],
               ["HKD/G1|G1", "HKD/M1|M1"],
-              ["HKD/G1|G1", "XRP|$", "HKD/G2|$"]
+              ["HKD/G1|G1", "XDV|$", "HKD/G2|$"]
             ]
           ]
 
-        "I4) XRP bridge":
-          comment: 'Source -> AC -> OB to XRP -> OB from XRP -> AC -> Destination'
+        "I4) XDV bridge":
+          comment: 'Source -> AC -> OB to XDV -> OB from XDV -> AC -> Destination'
           src: "A1", send: "10/HKD/A2", dst: "A2", via: "HKD"
           debug: false
           alternatives: [
@@ -740,7 +740,7 @@ extend path_finding_cases,
             paths: [
               # Focus
               ["HKD/G1|G1", "HKD/G2|$", "HKD/G2|G2"            ],
-              ["HKD/G1|G1", "XRP|$",    "HKD/G2|$", "HKD/G2|G2"],          # <--
+              ["HKD/G1|G1", "XDV|$",    "HKD/G2|$", "HKD/G2|G2"],          # <--
               # Incidental
               ["HKD/G1|G1", "HKD/M1|M1", "HKD/G2|G2"],
               ["HKD/G1|G1", "HKD/M2|M2", "HKD/G2|G2"]
@@ -749,7 +749,7 @@ extend path_finding_cases,
 
     }
   },
-  "Path Tests #2 (non-XRP to non-XRP, same currency)": {
+  "Path Tests #2 (non-XDV to non-XDV, same currency)": {
     ledger:
       accounts:
         G1: balance: ["1000.0"]
@@ -790,25 +790,25 @@ extend path_finding_cases,
             ]
           ]
 
-        "F) Different gateways, ripple  _skip":
+        "F) Different gateways, divvy  _skip":
           comment: 'Source -> AC -> AC -> Destination'
 
-        "G) Different users of different gateways, ripple  _skip":
+        "G) Different users of different gateways, divvy  _skip":
           comment: 'Source -> AC -> AC -> AC -> Destination'
 
         "H) Different gateways, order book  _skip":
           comment: 'Source -> AC -> OB -> AC -> Destination'
 
-        "I1) XRP bridge  _skip":
-          comment: 'Source -> OB to XRP -> OB from XRP -> Destination'
-          src: "A4", send: "10/HKD/G2", dst: "G2", via: "XRP"
+        "I1) XDV bridge  _skip":
+          comment: 'Source -> OB to XDV -> OB from XDV -> Destination'
+          src: "A4", send: "10/HKD/G2", dst: "G2", via: "XDV"
           debug: true
 
-        "I2) XRP bridge  _skip":
-          comment: 'Source -> AC -> OB to XRP -> OB from XRP -> Destination'
+        "I2) XDV bridge  _skip":
+          comment: 'Source -> AC -> OB to XDV -> OB from XDV -> Destination'
 
-        "I3) XRP bridge  _skip":
-          comment: 'Source -> OB to XRP -> OB from XRP -> AC -> Destination'
+        "I3) XDV bridge  _skip":
+          comment: 'Source -> OB to XDV -> OB from XDV -> AC -> Destination'
     }
   }
 
