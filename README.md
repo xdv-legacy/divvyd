@@ -1,6 +1,6 @@
 ![Divvy](/images/divvy.png)
 
-#The World’s Fastest and Most Secure Payment System
+# The World’s Fastest and Most Secure Payment System
 
 **What is Divvy?**
 
@@ -45,7 +45,7 @@ behavior. Competition drives down spreads and fees, making the network useful
 to everyone.
 
 
-###Key Protocol Features
+### Key Protocol Features
 1. XDV is Divvy’s native [cryptocurrency]
 (http://en.wikipedia.org/wiki/Cryptocurrency) with a fixed supply that
 decreases slowly over time, with no mining. XDV acts as a bridge currency, and
@@ -67,7 +67,7 @@ resources.
 [build.png]:      /images/build.png
 [contribute.png]: /images/contribute.png
 
-###Join The Divvy Community
+### Join The Divvy Community
 |![Transact][transact.png]|![Build][build.png]|![Contribute][contribute.png]|
 |:-----------------------:|:-----------------:|:---------------------------:|
 |[Transact on the fastest payment infrastructure][transact]|[Build Imaginative Apps][build]|Contribute to the Divvy Protocol Implementation|
@@ -78,13 +78,13 @@ resources.
 
 This is the repository for Divvy's `divvyd`, reference P2P server.
 
-###Build instructions:
+### Build instructions:
 * https://xdv.io/wiki/Divvyd_build_instructions
 
-###Setup instructions:
+### Setup instructions:
 * https://xdv.io/wiki/Divvyd_setup_instructions
 
-###Issues
+### Issues
 * https://divvylabs.atlassian.net/browse/RIPD
 
 ### Repository Contents
@@ -113,7 +113,7 @@ Javascript / Mocha tests.
 Divvy is open source and permissively licensed under the ISC license. See the
 LICENSE file for more details.
 
-###For more information:
+### For more information:
 * Divvy Wiki - https://xdv.io/wiki/
 * Divvy Primer - https://xdv.io/divvy_primer.pdf
 * Divvy Primer (Market Making) - https://xdv.io/divvy-mm.pdf
