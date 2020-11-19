@@ -72,9 +72,9 @@ resources.
 |:-----------------------:|:-----------------:|:---------------------------:|
 |[Transact on the fastest payment infrastructure][transact]|[Build Imaginative Apps][build]|Contribute to the Divvy Protocol Implementation|
 
-#divvyd - Divvy P2P server
+# divvyd - Divvy P2P server
 
-##[![Build Status](https://travis-ci.org/xdv/divvyd.png?branch=master)](https://travis-ci.org/xdv/divvyd)
+## [![Build Status](https://travis-ci.org/xdv/divvyd.png?branch=master)](https://travis-ci.org/xdv/divvyd)
 
 This is the repository for Divvy's `divvyd`, reference P2P server.
 
