@@ -104,7 +104,7 @@ def parse_time(t):
 CHECK_PLATFORMS = 'Debian', 'Ubuntu'
 CHECK_COMMAND = 'openssl version -a'
 CHECK_LINE = 'built on: '
-BUILD_TIME = 'Mon Apr  7 20:33:19 UTC 2014'
+BUILD_TIME = 'Mon Apr 7 20:33:19 UTC 2014'
 OPENSSL_ERROR = ('Your openSSL was built on %s; '
                  'divvyd needs a version built on or after %s.')
 UNITY_BUILD_DIRECTORY = 'src/divvy/unity/'
