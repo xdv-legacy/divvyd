@@ -1,6 +1,6 @@
 ![Divvy](/images/divvy.png)
 
-# The World’s Fastest and Most Secure Payment System
+# Sharing the Global Economy
 
 **What is Divvy?**
 
