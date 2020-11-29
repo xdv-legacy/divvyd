@@ -6,7 +6,7 @@
 
 Divvy is the open-source, distributed payment protocol that enables instant
 payments with low fees, no chargebacks, and currency flexibility (for example
-dollars, yen, euros, bitcoins, or even loyalty points). Businesses of any size
+dollars, yen, euros, bitcoins, or even loyalty points). It is the worlds fastest and most secure payment system.  Businesses of any size
 can easily build payment solutions such as banking or remittance apps, and
 accelerate the movement of money. Divvy enables the world to move value the
 way it moves information on the Internet.
