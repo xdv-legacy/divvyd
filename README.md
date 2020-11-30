@@ -120,3 +120,29 @@ LICENSE file for more details.
 * Divvy Gateway Primer - https://xdv.io/divvy-gateways.pdf  
 * Consensus - https://wiki.xdv.io/Consensus
 
+### Divvy Genesis Ledger
+~~~
+{
+   "result" : {
+      "ledger" : {
+         "accepted" : true,
+         "account_hash" : "A21ED30C04C88046FC61DB9DC19375EEDBD365FD8C17286F27127DF804E9CAA6",
+         "close_time" : 487287840,
+         "close_time_human" : "2015-Jun-10 21:44:00",
+         "close_time_resolution" : 30,
+         "closed" : true,
+         "hash" : "8C416580CE16A06D291666FD423F12AA2C6BD0E9440ED6BEF59889906CD9A7E9",
+         "ledger_hash" : "8C416580CE16A06D291666FD423F12AA2C6BD0E9440ED6BEF59889906CD9A7E9",
+         "ledger_index" : "1",
+         "parent_hash" : "0000000000000000000000000000000000000000000000000000000000000000",
+         "seqNum" : "1",
+         "totalCoins" : "100000000000000000",
+         "total_coins" : "100000000000000000",
+         "transaction_hash" : "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "ledger_hash" : "8C416580CE16A06D291666FD423F12AA2C6BD0E9440ED6BEF59889906CD9A7E9",
+      "ledger_index" : 1,
+      "status" : "success",
+      "validated" : true
+   }
+}
