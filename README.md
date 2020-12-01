@@ -13,15 +13,15 @@ way it moves information on the Internet.
 
 ![Divvy Network](images/network.png)
 
-**What is a Gateway?**
+**What is a Pathway?**
 
-Divvy works with gateways: independent businesses which hold customer
+Divvy works with pathways: independent businesses which hold customer
 deposits in various currencies such as U.S. dollars (USD) or Euros (EUR),
 in exchange for providing cryptographically-signed issuances that users can
 send and trade with one another in seconds on the Divvy network. Within the
 protocol, exchanges between multiple currencies can occur atomically without
 any central authority to monitor them. Later, customers can withdraw their
-Divvy balances from the gateways that created those issuances.
+Divvy balances from the pathways that created those issuances.
 
 **How do Divvy payments work?**
 
@@ -40,7 +40,7 @@ lowest practical level.
 
 The protocol is entirely open-source and the network’s shared ledger is public
 information, so no central authority prevents anyone from participating. Anyone
-can become a market maker, create a wallet or a gateway, or monitor network
+can become a market maker, create a wallet or a pathway, or monitor network
 behavior. Competition drives down spreads and fees, making the network useful
 to everyone.
 
@@ -117,7 +117,7 @@ LICENSE file for more details.
 * Divvy Wiki - https://xdv.io/wiki/
 * Divvy Primer - https://xdv.io/divvy_primer.pdf
 * Divvy Primer (Market Making) - https://xdv.io/divvy-mm.pdf
-* Divvy Gateway Primer - https://xdv.io/divvy-gateways.pdf  
+* Divvy Pathway Primer - https://xdv.io/divvy-pathways.pdf  
 * Consensus - https://wiki.xdv.io/Consensus
 
 ### Divvy Genesis Ledger
